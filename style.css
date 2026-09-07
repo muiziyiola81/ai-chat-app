@@ -209,7 +209,7 @@ header h1 {
   border: none;
   outline: none;
   border-radius: 50%;
-  background: #26332c;
+  background:#1f8f4d;
   color: #d8dedb;
   display: flex;
   align-items: center;
@@ -394,4 +394,127 @@ header h1 {
     max-width: 200px;
     max-height: 200px;
   }
+}
+
+/* =========================
+   CHAT HISTORY DRAWER
+========================= */
+
+.history-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 290px;
+  max-width: 82vw;
+  height: 100vh;
+  background: #111614;
+  border-right: 1px solid #26332c;
+  z-index: 100001;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  box-shadow: 8px 0 25px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.history-drawer.open {
+  transform: translateX(0);
+}
+
+.history-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 100000;
+  display: none;
+}
+
+.history-overlay.open {
+  display: block;
+}
+
+.history-header {
+  height: 65px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #26332c;
+}
+
+.history-header h2 {
+  margin: 0;
+  font-size: 19px;
+  color: white;
+}
+
+.history-header button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: #1f8f4d;
+  color: white;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.history-item {
+  padding: 13px;
+  margin-bottom: 8px;
+  background: #1b211e;
+  border: 1px solid #26332c;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background: #222b26;
+}
+
+.history-item-title {
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-empty {
+  color: #8b948f;
+  text-align: center;
+  padding: 30px 10px;
+  font-size: 14px;
+}
+
+/* =========================
+   COPY AI REPLY BUTTON
+========================= */
+
+.copy-reply-button {
+  align-self: flex-start;
+  margin: 3px 0 8px 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #303833;
+  border-radius: 8px;
+  background: #1b211e;
+  color: #aeb7b1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.copy-reply-button:hover {
+  background: #26332c;
+  color: white;
 }

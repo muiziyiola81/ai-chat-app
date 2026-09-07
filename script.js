@@ -23,6 +23,21 @@ const imagePreview = document.getElementById("imagePreview");
 const previewImage = document.getElementById("previewImage");
 const removeImageButton = document.getElementById("removeImageButton");
 
+const newChatButton = document.getElementById("newChatButton");
+
+const historyDrawer =
+  document.getElementById("historyDrawer");
+
+const historyOverlay =
+  document.getElementById("historyOverlay");
+
+const closeHistoryButton =
+  document.getElementById("closeHistoryButton");
+
+const historyList =
+  document.getElementById("historyList");
+
+
 let selectedImage = null;
 let thinkMode = false;
 let cameraStream = null;
@@ -31,6 +46,66 @@ let conversation = JSON.parse(
   localStorage.getItem("aiConversation") || "[]"
 );
 
+let chatHistory = JSON.parse(
+  localStorage.getItem("aiChatHistory") || "[]"
+);
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+
+/* =========================
+   SAVE CURRENT CHAT
+========================= */
+
+function saveCurrentChatToHistory() {
+
+  if (!conversation.length) {
+    return;
+  }
+
+  const userMessages =
+    conversation.filter(
+      function(message) {
+        return message.role === "user";
+      }
+    );
+
+  if (!userMessages.length) {
+    return;
+  }
+
+  const firstUserMessage =
+    userMessages[0];
+
+  let title =
+    firstUserMessage.content ||
+    "Image conversation";
+
+  if (!title.trim()) {
+    title = "Image conversation";
+  }
+
+  title =
+    title.substring(0, 45);
+
+  const chatObject = {
+    id: Date.now(),
+    title: title,
+    messages: JSON.parse(
+      JSON.stringify(conversation)
+    )
+  };
+
+  chatHistory.unshift(chatObject);
+
+  localStorage.setItem(
+    "aiChatHistory",
+    JSON.stringify(chatHistory)
+  );
+
+}
+
 
 /* =========================
    IMAGE VIEWER
@@ -38,59 +113,129 @@ let conversation = JSON.parse(
 
 function openImageViewer(imageSrc) {
 
-  let viewer = document.getElementById("imageViewer");
+  let viewer =
+    document.getElementById("imageViewer");
+
   let largeImage;
 
   if (!viewer) {
 
-    viewer = document.createElement("div");
+    viewer =
+      document.createElement("div");
 
-    viewer.id = "imageViewer";
+    viewer.id =
+      "imageViewer";
 
-    viewer.style.position = "fixed";
-    viewer.style.inset = "0";
-    viewer.style.width = "100%";
-    viewer.style.height = "100%";
-    viewer.style.background = "rgba(0,0,0,0.96)";
-    viewer.style.zIndex = "99999";
-    viewer.style.display = "flex";
-    viewer.style.alignItems = "center";
-    viewer.style.justifyContent = "center";
-    viewer.style.padding = "20px";
+    viewer.style.position =
+      "fixed";
 
-    largeImage = document.createElement("img");
+    viewer.style.inset =
+      "0";
 
-    largeImage.id = "viewerImage";
+    viewer.style.width =
+      "100%";
 
-    largeImage.style.display = "block";
-    largeImage.style.maxWidth = "95%";
-    largeImage.style.maxHeight = "90%";
-    largeImage.style.width = "auto";
-    largeImage.style.height = "auto";
-    largeImage.style.objectFit = "contain";
-    largeImage.style.borderRadius = "12px";
+    viewer.style.height =
+      "100%";
+
+    viewer.style.background =
+      "rgba(0,0,0,0.96)";
+
+    viewer.style.zIndex =
+      "99999";
+
+    viewer.style.display =
+      "flex";
+
+    viewer.style.alignItems =
+      "center";
+
+    viewer.style.justifyContent =
+      "center";
+
+    viewer.style.padding =
+      "20px";
+
+
+    largeImage =
+      document.createElement("img");
+
+    largeImage.id =
+      "viewerImage";
+
+    largeImage.style.display =
+      "block";
+
+    largeImage.style.maxWidth =
+      "95%";
+
+    largeImage.style.maxHeight =
+      "90%";
+
+    largeImage.style.width =
+      "auto";
+
+    largeImage.style.height =
+      "auto";
+
+    largeImage.style.objectFit =
+      "contain";
+
+    largeImage.style.borderRadius =
+      "12px";
+
 
     const closeButton =
       document.createElement("button");
 
-    closeButton.id = "closeImageViewer";
+    closeButton.id =
+      "closeImageViewer";
 
-    closeButton.textContent = "×";
+    closeButton.textContent =
+      "×";
 
-    closeButton.style.position = "absolute";
-    closeButton.style.top = "15px";
-    closeButton.style.right = "15px";
-    closeButton.style.width = "44px";
-    closeButton.style.height = "44px";
-    closeButton.style.border = "none";
-    closeButton.style.borderRadius = "50%";
-    closeButton.style.background = "#1b211e";
-    closeButton.style.color = "white";
-    closeButton.style.fontSize = "28px";
-    closeButton.style.lineHeight = "44px";
-    closeButton.style.padding = "0";
-    closeButton.style.zIndex = "2";
-    closeButton.style.cursor = "pointer";
+    closeButton.style.position =
+      "absolute";
+
+    closeButton.style.top =
+      "15px";
+
+    closeButton.style.right =
+      "15px";
+
+    closeButton.style.width =
+      "44px";
+
+    closeButton.style.height =
+      "44px";
+
+    closeButton.style.border =
+      "none";
+
+    closeButton.style.borderRadius =
+      "50%";
+
+    closeButton.style.background =
+      "#1b211e";
+
+    closeButton.style.color =
+      "white";
+
+    closeButton.style.fontSize =
+      "28px";
+
+    closeButton.style.lineHeight =
+      "44px";
+
+    closeButton.style.padding =
+      "0";
+
+    closeButton.style.zIndex =
+      "2";
+
+    closeButton.style.cursor =
+      "pointer";
+
 
     closeButton.addEventListener(
       "click",
@@ -103,6 +248,7 @@ function openImageViewer(imageSrc) {
       }
     );
 
+
     largeImage.addEventListener(
       "click",
       function(event) {
@@ -111,6 +257,7 @@ function openImageViewer(imageSrc) {
 
       }
     );
+
 
     viewer.addEventListener(
       "click",
@@ -124,6 +271,7 @@ function openImageViewer(imageSrc) {
 
       }
     );
+
 
     viewer.appendChild(
       largeImage
@@ -144,6 +292,7 @@ function openImageViewer(imageSrc) {
       viewer.querySelector("img");
 
   }
+
 
   largeImage.src =
     imageSrc;
@@ -172,6 +321,108 @@ function addMessage(text, type) {
   chatBox.appendChild(
     message
   );
+
+
+  /* COPY BUTTON FOR AI REPLIES */
+
+  if (type === "ai" && text !== "Thinking...") {
+
+    const copyButton =
+  document.createElement("button");
+
+copyButton.type =
+  "button";
+
+copyButton.className =
+  "copy-reply-button";
+
+copyButton.title =
+  "Copy AI reply";
+
+copyButton.innerHTML = `
+  <svg
+    viewBox="0 0 24 24"
+    width="17"
+    height="17"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <rect x="9" y="9" width="11" height="11" rx="2"/>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+  </svg>
+`;
+
+copyButton.addEventListener(
+  "click",
+  async function(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+
+      await navigator.clipboard.writeText(text);
+
+      copyButton.innerHTML = `
+        <svg
+          viewBox="0 0 24 24"
+          width="17"
+          height="17"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      `;
+
+      setTimeout(
+        function() {
+
+          copyButton.innerHTML = `
+            <svg
+              viewBox="0 0 24 24"
+              width="17"
+              height="17"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="11" height="11" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          `;
+
+        },
+        1500
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Copy failed:",
+        error
+      );
+
+    }
+
+  }
+);
+
+
+    chatBox.appendChild(
+      copyButton
+    );
+
+  }
+
 
   chatBox.scrollTop =
     chatBox.scrollHeight;
@@ -295,15 +546,13 @@ function showImagePreview(file) {
 
     };
 
-  reader.readAsDataURL(
-    file
-  );
+  reader.readAsDataURL(file);
 
 }
 
 
 /* =========================
-   REMOVE SELECTED IMAGE
+   REMOVE IMAGE
 ========================= */
 
 removeImageButton.addEventListener(
@@ -316,23 +565,18 @@ removeImageButton.addEventListener(
 
     selectedImage = null;
 
-    previewImage.src =
-      "";
+    previewImage.src = "";
 
     imagePreview.style.display =
       "none";
 
-    photoInput.value =
-      "";
+    photoInput.value = "";
 
-    cameraInput.value =
-      "";
+    cameraInput.value = "";
 
-    fileInput.value =
-      "";
+    fileInput.value = "";
 
-    fileName.textContent =
-      "";
+    fileName.textContent = "";
 
   }
 );
@@ -371,6 +615,7 @@ function addSavedImage(
   imageContainer.style.background =
     "transparent";
 
+
   const image =
     document.createElement("img");
 
@@ -404,6 +649,7 @@ function addSavedImage(
   image.style.cursor =
     "pointer";
 
+
   image.addEventListener(
     "click",
     function(event) {
@@ -419,6 +665,7 @@ function addSavedImage(
     }
   );
 
+
   imageContainer.appendChild(
     image
   );
@@ -426,6 +673,7 @@ function addSavedImage(
   chatBox.appendChild(
     imageContainer
   );
+
 
   if (text) {
 
@@ -444,6 +692,7 @@ function addSavedImage(
 
   }
 
+
   chatBox.scrollTop =
     chatBox.scrollHeight;
 
@@ -451,7 +700,7 @@ function addSavedImage(
 
 
 /* =========================
-   CAMERA WINDOW
+   CAMERA
 ========================= */
 
 function openCamera() {
@@ -466,6 +715,7 @@ function openCamera() {
     return;
 
   }
+
 
   const cameraViewer =
     document.createElement("div");
@@ -509,9 +759,6 @@ function openCamera() {
 
   const video =
     document.createElement("video");
-
-  video.id =
-    "cameraVideo";
 
   video.autoplay =
     true;
@@ -648,14 +895,11 @@ function openCamera() {
         .getTracks()
         .forEach(
           function(track) {
-
             track.stop();
-
           }
         );
 
-      cameraStream =
-        null;
+      cameraStream = null;
 
     }
 
@@ -666,11 +910,7 @@ function openCamera() {
 
   closeButton.addEventListener(
     "click",
-    function() {
-
-      closeCamera();
-
-    }
+    closeCamera
   );
 
 
@@ -679,9 +919,7 @@ function openCamera() {
     function() {
 
       if (!video.videoWidth) {
-
         return;
-
       }
 
       const canvas =
@@ -704,13 +942,12 @@ function openCamera() {
         canvas.height
       );
 
+
       canvas.toBlob(
         function(blob) {
 
           if (!blob) {
-
             return;
-
           }
 
           const file =
@@ -724,9 +961,7 @@ function openCamera() {
 
           closeCamera();
 
-          showImagePreview(
-            file
-          );
+          showImagePreview(file);
 
         },
         "image/jpeg",
@@ -768,13 +1003,11 @@ function openCamera() {
         closeCamera();
 
         fileName.textContent =
-          "Camera permission was not available. Opening camera option...";
+          "Camera permission was not available.";
 
         setTimeout(
           function() {
-
             cameraInput.click();
-
           },
           300
         );
@@ -798,10 +1031,9 @@ async function sendMessage() {
     !text &&
     !selectedImage
   ) {
-
     return;
-
   }
+
 
   const imageToSend =
     selectedImage;
@@ -835,6 +1067,7 @@ async function sendMessage() {
 
     }
 
+
     addSavedImage(
       imageDataForAPI,
       text
@@ -860,36 +1093,27 @@ async function sendMessage() {
   }
 
 
-  userInput.value =
-    "";
+  userInput.value = "";
 
   userInput.style.height =
     "44px";
 
-  selectedImage =
-    null;
+  selectedImage = null;
 
-  previewImage.src =
-    "";
+  previewImage.src = "";
 
   imagePreview.style.display =
     "none";
 
-  photoInput.value =
-    "";
+  photoInput.value = "";
 
-  cameraInput.value =
-    "";
+  cameraInput.value = "";
 
-  fileInput.value =
-    "";
+  fileInput.value = "";
 
-  fileName.textContent =
-    "";
+  fileName.textContent = "";
 
-  toolsMenu.classList.remove(
-    "open"
-  );
+  toolsMenu.classList.remove("open");
 
 
   const thinkingMessage =
@@ -905,7 +1129,6 @@ async function sendMessage() {
       await fetch(
         "http://localhost:3000/chat",
         {
-
           method: "POST",
 
           headers: {
@@ -962,7 +1185,6 @@ async function sendMessage() {
       "ai"
     );
 
-
     saveMessage(
       reply,
       "assistant"
@@ -1002,25 +1224,15 @@ function fileToBase64(file) {
 
       reader.onload =
         function() {
-
-          resolve(
-            reader.result
-          );
-
+          resolve(reader.result);
         };
 
       reader.onerror =
         function() {
-
-          reject(
-            reader.error
-          );
-
+          reject(reader.error);
         };
 
-      reader.readAsDataURL(
-        file
-      );
+      reader.readAsDataURL(file);
 
     }
   );
@@ -1100,9 +1312,7 @@ plusButton.addEventListener(
 
     event.stopPropagation();
 
-    toolsMenu.classList.toggle(
-      "open"
-    );
+    toolsMenu.classList.toggle("open");
 
   }
 );
@@ -1146,9 +1356,7 @@ fileInput.addEventListener(
       file.type.startsWith("image/")
     ) {
 
-      showImagePreview(
-        file
-      );
+      showImagePreview(file);
 
     } else {
 
@@ -1212,9 +1420,7 @@ cameraButton.addEventListener(
 
     event.stopPropagation();
 
-    toolsMenu.classList.remove(
-      "open"
-    );
+    toolsMenu.classList.remove("open");
 
     openCamera();
 
@@ -1223,7 +1429,7 @@ cameraButton.addEventListener(
 
 
 /* =========================
-   CAMERA INPUT FALLBACK
+   CAMERA INPUT
 ========================= */
 
 cameraInput.addEventListener(
@@ -1287,6 +1493,7 @@ micButton.addEventListener(
       window.SpeechRecognition ||
       window.webkitSpeechRecognition;
 
+
     if (!SpeechRecognition) {
 
       fileName.textContent =
@@ -1295,6 +1502,7 @@ micButton.addEventListener(
       return;
 
     }
+
 
     const recognition =
       new SpeechRecognition();
@@ -1373,19 +1581,422 @@ micButton.addEventListener(
 
 
 /* =========================
-   RESTORE CONVERSATION
+   NEW CHAT
 ========================= */
 
-function restoreConversation() {
+newChatButton.addEventListener(
+  "click",
+  function(event) {
 
-  if (!conversation.length) {
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    const confirmed =
+      confirm(
+        "Start a new chat? Your current conversation will be saved in Chat History."
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    /* SAVE CURRENT CHAT */
+
+    saveCurrentChatToHistory();
+
+
+    /* STOP CAMERA */
+
+    if (cameraStream) {
+
+      cameraStream
+        .getTracks()
+        .forEach(
+          function(track) {
+            track.stop();
+          }
+        );
+
+      cameraStream = null;
+
+    }
+
+
+    const cameraViewer =
+      document.getElementById(
+        "cameraViewer"
+      );
+
+    if (cameraViewer) {
+      cameraViewer.remove();
+    }
+
+
+    const imageViewer =
+      document.getElementById(
+        "imageViewer"
+      );
+
+    if (imageViewer) {
+      imageViewer.remove();
+    }
+
+
+    /* CLEAR CURRENT CHAT */
+
+    conversation = [];
+
+    localStorage.removeItem(
+      "aiConversation"
+    );
+
+
+    chatBox.innerHTML =
+      "";
+
+    addMessage(
+      "Hello! How can I help you today?",
+      "ai"
+    );
+
+
+    userInput.value =
+      "";
+
+    userInput.style.height =
+      "44px";
+
+
+    selectedImage =
+      null;
+
+    previewImage.src =
+      "";
+
+    imagePreview.style.display =
+      "none";
+
+
+    photoInput.value =
+      "";
+
+    cameraInput.value =
+      "";
+
+    fileInput.value =
+      "";
+
+    fileName.textContent =
+      "";
+
+
+    thinkMode =
+      false;
+
+    thinkButton.classList.remove(
+      "active"
+    );
+
+
+    toolsMenu.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+/* =========================
+   HISTORY DRAWER
+========================= */
+
+function openHistoryDrawer() {
+
+  historyDrawer.classList.add("open");
+
+  historyOverlay.classList.add("open");
+
+  updateHistoryList();
+
+}
+
+
+function closeHistoryDrawer() {
+
+  historyDrawer.classList.remove("open");
+
+  historyOverlay.classList.remove("open");
+
+}
+
+
+closeHistoryButton.addEventListener(
+  "click",
+  function() {
+
+    closeHistoryDrawer();
+
+  }
+);
+
+
+historyOverlay.addEventListener(
+  "click",
+  function() {
+
+    closeHistoryDrawer();
+
+  }
+);
+
+
+/* =========================
+   SWIPE DRAWER
+========================= */
+
+document.addEventListener(
+  "touchstart",
+  function(event) {
+
+    if (!event.touches.length) {
+      return;
+    }
+
+    touchStartX =
+      event.touches[0].clientX;
+
+    touchStartY =
+      event.touches[0].clientY;
+
+  },
+  { passive: true }
+);
+
+
+document.addEventListener(
+  "touchend",
+  function(event) {
+
+    if (!event.changedTouches.length) {
+      return;
+    }
+
+    const touchEndX =
+      event.changedTouches[0].clientX;
+
+    const touchEndY =
+      event.changedTouches[0].clientY;
+
+    const differenceX =
+      touchEndX - touchStartX;
+
+    const differenceY =
+      Math.abs(
+        touchEndY - touchStartY
+      );
+
+
+    /* OPEN */
+
+    if (
+      touchStartX <= 25 &&
+      differenceX > 70 &&
+      differenceY < 100 &&
+      !historyDrawer.classList.contains("open")
+    ) {
+
+      openHistoryDrawer();
+
+      return;
+
+    }
+
+
+    /* CLOSE */
+
+    if (
+      historyDrawer.classList.contains("open") &&
+      differenceX < -70 &&
+      differenceY < 100
+    ) {
+
+      closeHistoryDrawer();
+
+    }
+
+  },
+  { passive: true }
+);
+
+
+/* =========================
+   UPDATE HISTORY LIST
+========================= */
+
+function updateHistoryList() {
+
+  historyList.innerHTML = "";
+
+
+  if (!chatHistory.length) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "history-empty";
+
+    empty.textContent =
+      "No chat history yet.";
+
+    historyList.appendChild(
+      empty
+    );
 
     return;
 
   }
 
+
+  chatHistory.forEach(
+    function(chat) {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "history-item";
+
+
+      const title =
+        document.createElement("div");
+
+      title.className =
+        "history-item-title";
+
+      title.textContent =
+        chat.title;
+
+
+      item.appendChild(
+        title
+      );
+
+
+      item.addEventListener(
+        "click",
+        function() {
+
+          loadChatFromHistory(
+            chat.id
+          );
+
+        }
+      );
+
+
+      historyList.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   LOAD CHAT FROM HISTORY
+========================= */
+
+function loadChatFromHistory(chatId) {
+
+  const selectedChat =
+    chatHistory.find(
+      function(chat) {
+        return chat.id === chatId;
+      }
+    );
+
+
+  if (!selectedChat) {
+    return;
+  }
+
+
+  conversation =
+    JSON.parse(
+      JSON.stringify(
+        selectedChat.messages
+      )
+    );
+
+
+  localStorage.setItem(
+    "aiConversation",
+    JSON.stringify(conversation)
+  );
+
+
   chatBox.innerHTML =
     "";
+
+
+  conversation.forEach(
+    function(message) {
+
+      if (
+        message.type === "image" &&
+        message.image
+      ) {
+
+        addSavedImage(
+          message.image,
+          message.content
+        );
+
+      } else {
+
+        addMessage(
+          message.content || "",
+          message.role === "user"
+            ? "user"
+            : "ai"
+        );
+
+      }
+
+    }
+  );
+
+
+  chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+
+  closeHistoryDrawer();
+
+}
+
+
+/* =========================
+   RESTORE CURRENT CHAT
+========================= */
+
+function restoreConversation() {
+
+  if (!conversation.length) {
+    return;
+  }
+
+
+  chatBox.innerHTML =
+    "";
+
 
   conversation.forEach(
     function(message) {
@@ -1404,6 +2015,7 @@ function restoreConversation() {
 
       }
 
+
       addMessage(
         message.content || "",
         message.role === "user"
@@ -1413,6 +2025,7 @@ function restoreConversation() {
 
     }
   );
+
 
   chatBox.scrollTop =
     chatBox.scrollHeight;

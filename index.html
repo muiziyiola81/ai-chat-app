@@ -10,9 +10,56 @@
 <body>
 
 <div class="app">
+<!-- CHAT HISTORY DRAWER -->
+<div id="historyDrawer" class="history-drawer">
+  <div class="history-header">
+    <h2></h2>
+    <button id="closeHistoryButton" type="button">×</button>
+  </div>
 
+  <div id="historyList" class="history-list"></div>
+</div>
+
+<div id="historyOverlay" class="history-overlay"></div>
   <header>
-    <h1>AI Assistant</h1>
+    <h1></h1>
+
+    <button
+  id="newChatButton"
+  type="button"
+  title="New Chat"
+  style="
+    position:absolute;
+    left:12px;
+    top:8px;
+    width:42px;
+    height:42px;
+    padding:0;
+    border:1px solid #3fa66a;
+    border-radius:50%;
+    background:#1f8f4d;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  "
+>
+>
+  <svg
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+  </svg>
+    </button>
   </header>
 
   <main id="chatBox">
@@ -154,7 +201,6 @@
 </div>
 
 <script src="script.js"></script>
-
 
 </body>
 </html>

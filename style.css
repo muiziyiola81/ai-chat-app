@@ -42,13 +42,15 @@ header p {
   padding: 20px;
 }
 
+/* Messages */
 .message {
-  width: fit-content;
+  display: table;
+  width: auto;
   max-width: 80%;
-  padding: 6px 10px;
+  padding: 5px 9px;
   margin-bottom: 14px;
   border-radius: 16px;
-  line-height: 1.5;
+  line-height: 1.4;
   overflow-wrap: break-word;
 }
 
@@ -64,42 +66,136 @@ header p {
   background: #075c3b;
   color: white;
   margin-left: auto;
+  padding: 5px 9px;
 }
 
+/* Input area */
 .input-area {
-  display: flex;
-  gap: 10px;
-  padding: 15px;
+  padding: 10px 12px 12px;
   border-top: 1px solid #26302b;
   background: #111614;
 }
 
+/* Message box */
 #userInput {
-  flex: 1;
-  padding: 14px;
+  width: 100%;
+  min-height: 44px;
+  max-height: 130px;
+  resize: none;
+  padding: 11px 13px;
   border: 1px solid #34413a;
-  border-radius: 12px;
+  border-radius: 14px;
   outline: none;
   background: #1a211d;
   color: white;
+  font-family: Arial, sans-serif;
   font-size: 16px;
+  line-height: 1.4;
+  display: block;
+}
+
+#userInput:focus {
+  border-color: #075c3b;
 }
 
 #userInput::placeholder {
   color: #8d9791;
 }
 
+/* Controls underneath input */
+.input-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+/* Left buttons */
+.left-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Small control buttons */
+#uploadButton,
+#micButton,
+#thinkButton {
+  border: 1px solid #34413a;
+  background: #1a211d;
+  color: #dce3df;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 36px;
+}
+
+/* Upload and microphone */
+#uploadButton,
+#micButton {
+  width: 38px;
+  font-size: 18px;
+}
+
+/* Think harder */
+#thinkButton {
+  padding: 0 11px;
+  font-size: 13px;
+}
+
+/* Active Think Harder */
+#thinkButton.active {
+  background: #075c3b;
+  border-color: #075c3b;
+  color: white;
+}
+
+/* Send button */
 #sendButton {
-  padding: 14px 18px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border: none;
-  border-radius: 12px;
+  border-radius: 50%;
   background: #075c3b;
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
 }
 
 #sendButton:hover {
   background: #064b31;
+}
+
+/* Selected file */
+#fileName {
+  display: none;
+  margin-top: 7px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: #1a211d;
+  color: #aab3ae;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .app {
+    max-width: 100%;
+  }
+
+  #chatBox {
+    padding: 15px;
+  }
+
+  .input-area {
+    padding: 9px 10px 10px;
+  }
+
+  #thinkButton {
+    padding: 0 9px;
+  }
 }

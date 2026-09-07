@@ -13,7 +13,6 @@
 
     <header>
       <h1>AI Assistant</h1>
-      
     </header>
 
     <main id="chatBox">
@@ -23,15 +22,69 @@
     </main>
 
     <div class="input-area">
-      <input
-        type="text"
+
+      <!-- Message input -->
+      <textarea
         id="userInput"
-        placeholder="Type your message..."
+        placeholder="Ask anything..."
+        rows="1"
+      ></textarea>
+
+      <!-- Hidden file picker -->
+      <input
+        type="file"
+        id="fileInput"
+        hidden
       >
 
-      <button id="sendButton">
-        Send
-      </button>
+      <!-- Bottom controls -->
+      <div class="input-controls">
+
+        <div class="left-controls">
+
+          <!-- Upload -->
+          <button
+            type="button"
+            id="uploadButton"
+            title="Upload a file"
+          >
+            📎
+          </button>
+
+          <!-- Think harder -->
+          <button
+            type="button"
+            id="thinkButton"
+            title="Think harder"
+          >
+            🧠 Think harder
+          </button>
+
+          <!-- Speech to text -->
+          <button
+            type="button"
+            id="micButton"
+            title="Speech to text"
+          >
+            🎤
+          </button>
+
+        </div>
+
+        <!-- Send -->
+        <button
+          type="button"
+          id="sendButton"
+          title="Send message"
+        >
+          ➤
+        </button>
+
+      </div>
+
+      <!-- Selected file name -->
+      <div id="fileName"></div>
+
     </div>
 
   </div>

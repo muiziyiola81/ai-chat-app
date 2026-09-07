@@ -53,9 +53,11 @@ header p {
 }
 
 .ai {
-  background: #202823;
+  background: transparent;
   color: white;
   margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .user {

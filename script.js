@@ -1755,7 +1755,7 @@ historyOverlay.addEventListener(
 
 
 /* =========================
-   SWIPE DRAWER
+   SWIPE DRAWER — ANYWHERE
 ========================= */
 
 document.addEventListener(
@@ -1800,10 +1800,11 @@ document.addEventListener(
       );
 
 
-    /* OPEN */
+    /* =========================
+       OPEN FROM ANYWHERE
+    ========================= */
 
     if (
-      touchStartX <= 25 &&
       differenceX > 70 &&
       differenceY < 100 &&
       !historyDrawer.classList.contains("open")
@@ -1816,7 +1817,9 @@ document.addEventListener(
     }
 
 
-    /* CLOSE */
+    /* =========================
+       CLOSE DRAWER
+    ========================= */
 
     if (
       historyDrawer.classList.contains("open") &&

@@ -1,140 +1,904 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Assistant</title>
-  <link rel="stylesheet" href="style.css">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>GPT Hub</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body>
 
 <div class="app">
-<!-- CHAT HISTORY DRAWER -->
-<div id="historyDrawer" class="history-drawer">
-  <div class="history-header">
-    <h2></h2>
-    <button id="closeHistoryButton" type="button">×</button>
+
+  <!-- =========================
+       CHAT HISTORY DRAWER
+  ========================== -->
+
+  <div
+    id="historyDrawer"
+    class="history-drawer"
+  >
+
+    <div class="history-header">
+
+      <h2></h2>
+
+      <button
+        id="closeHistoryButton"
+        type="button"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div
+      id="historyList"
+      class="history-list"
+    ></div>
+
   </div>
 
-  <div id="historyList" class="history-list"></div>
-</div>
 
-<div id="historyOverlay" class="history-overlay"></div>
+  <div
+    id="historyOverlay"
+    class="history-overlay"
+  ></div>
+
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
   <header>
-    <h1></h1>
+
+    <div class="header-brand">
+
+      <div class="header-logo">
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/>
+        </svg>
+
+      </div>
+
+      <h1>GPT Hub</h1>
+
+    </div>
+
+
+    <!-- THREE DOT BUTTON -->
 
     <button
-  id="newChatButton"
-  type="button"
-  title="New Chat"
-  style="
-    position:absolute;
-    right:12px;
-    top:8px;
-    width:42px;
-    height:42px;
-    padding:0;
-    border:0.5px solid #1b2;
-    border-radius:50%;
-    background: #1b211e;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-  "
->
->
-  <svg
-    viewBox="0 0 24 24"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path d="M12 20h9"/>
-    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-  </svg>
+      id="settingsButton"
+      type="button"
+      title="Menu"
+      aria-label="Menu"
+    >
+
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="currentColor"
+      >
+
+        <circle
+          cx="12"
+          cy="5"
+          r="1.8"
+        />
+
+        <circle
+          cx="12"
+          cy="12"
+          r="1.8"
+        />
+
+        <circle
+          cx="12"
+          cy="19"
+          r="1.8"
+        />
+
+      </svg>
+
     </button>
+
   </header>
 
+
+  <!-- =========================
+       GPT HUB MENU
+  ========================== -->
+
+  <div
+    id="themeMenu"
+    class="theme-menu"
+  >
+
+    <button
+      id="upgradeMenuButton"
+      type="button"
+    >
+      <span>Upgrade to Pro</span>
+      <span>✦</span>
+    </button>
+
+
+    <button
+      id="darkThemeButton"
+      type="button"
+    >
+      <span>Dark</span>
+
+      <span
+        class="theme-check"
+        id="darkCheck"
+      >
+        ✓
+      </span>
+
+    </button>
+
+
+    <button
+      id="lightThemeButton"
+      type="button"
+    >
+      <span>Light</span>
+
+      <span
+        class="theme-check"
+        id="lightCheck"
+      >
+        ✓
+      </span>
+
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       PRO SCREEN
+  ========================== -->
+
+  <div
+    id="proScreen"
+    class="pro-screen"
+  >
+
+    <button
+      id="closeProButton"
+      class="close-pro-button"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="pro-content">
+
+      <div class="pro-icon">
+        ✦
+      </div>
+
+
+      <h2>GPT Hub Pro</h2>
+
+
+      <p class="pro-subtitle">
+        Unlock more from your AI assistant.
+      </p>
+
+
+      <!-- PRO FEATURES -->
+
+      <div class="pro-features">
+
+
+        <div class="pro-feature">
+
+          <span class="feature-icon">
+            ✦
+          </span>
+
+          <div>
+
+            <strong>
+              Advanced AI
+            </strong>
+
+            <p>
+              Get access to more powerful AI capabilities.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="pro-feature">
+
+          <span class="feature-icon">
+            ⚡
+          </span>
+
+          <div>
+
+            <strong>
+              Higher Limits
+            </strong>
+
+            <p>
+              Enjoy more messages and AI usage.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="pro-feature">
+
+          <span class="feature-icon">
+            ◈
+          </span>
+
+          <div>
+
+            <strong>
+              More AI Tools
+            </strong>
+
+            <p>
+              Unlock additional tools as they become available.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="pro-feature">
+
+          <span class="feature-icon">
+            ✓
+          </span>
+
+          <div>
+
+            <strong>
+              Priority Access
+            </strong>
+
+            <p>
+              Get priority access to new Pro features.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- UPGRADE BUTTON -->
+
+      <button
+        id="upgradeProButton"
+        class="upgrade-pro-button"
+        type="button"
+      >
+        Upgrade to Pro
+      </button>
+
+
+      <p class="pro-note">
+        Payment options will be available at checkout.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       PAYMENT CHOICE SCREEN
+  ========================== -->
+
+  <div
+    id="paymentScreen"
+    class="payment-screen"
+  >
+
+    <button
+      id="closePaymentButton"
+      class="close-payment-button"
+      type="button"
+    >
+      ×
+    </button>
+
+
+    <div class="payment-content">
+
+      <div class="payment-icon">
+        ✦
+      </div>
+
+
+      <h2>
+        Upgrade to Pro
+      </h2>
+
+
+      <p class="payment-subtitle">
+        Choose your preferred payment method
+      </p>
+
+
+      <!-- CARD PAYMENT -->
+
+      <button
+        id="cardPaymentButton"
+        class="payment-option"
+        type="button"
+      >
+
+        <span class="payment-option-icon">
+          💳
+        </span>
+
+        <span class="payment-option-text">
+
+          <strong>
+            Pay with Card
+          </strong>
+
+          <small>
+            Visa, Mastercard and more
+          </small>
+
+        </span>
+
+        <span class="payment-arrow">
+          ›
+        </span>
+
+      </button>
+
+
+      <!-- CRYPTO PAYMENT -->
+
+      <button
+        id="cryptoPaymentButton"
+        class="payment-option"
+        type="button"
+      >
+
+        <span class="payment-option-icon">
+          ₿
+        </span>
+
+        <span class="payment-option-text">
+
+          <strong>
+            Pay with Crypto
+          </strong>
+
+          <small>
+            Pay using cryptocurrency
+          </small>
+
+        </span>
+
+        <span class="payment-arrow">
+          ›
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CRYPTO SCREEN
+  ========================== -->
+
+  <div
+    id="cryptoScreen"
+    class="crypto-screen"
+  >
+
+    <button
+      id="closeCryptoButton"
+      class="close-crypto-button"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="crypto-content">
+
+      <div class="crypto-icon">
+        ₿
+      </div>
+
+
+      <h2>
+        Pay with Crypto
+      </h2>
+
+
+      <p class="crypto-subtitle">
+        Choose your cryptocurrency
+      </p>
+
+
+      <!-- =========================
+           BITCOIN
+      ========================== -->
+
+      <button
+        id="bitcoinButton"
+        class="crypto-option"
+        type="button"
+      >
+
+        <span class="crypto-option-icon">
+          ₿
+        </span>
+
+        <span class="crypto-option-text">
+
+          <strong>
+            Bitcoin
+          </strong>
+
+          <small>
+            BTC
+          </small>
+
+        </span>
+
+        <span class="crypto-arrow">
+          ›
+        </span>
+
+      </button>
+
+
+      <!-- =========================
+           ETHEREUM
+      ========================== -->
+
+      <button
+        id="ethereumButton"
+        class="crypto-option"
+        type="button"
+      >
+
+        <span class="crypto-option-icon">
+          Ξ
+        </span>
+
+        <span class="crypto-option-text">
+
+          <strong>
+            Ethereum
+          </strong>
+
+          <small>
+            ETH
+          </small>
+
+        </span>
+
+        <span class="crypto-arrow">
+          ›
+        </span>
+
+      </button>
+
+
+      <!-- =========================
+           USDT
+      ========================== -->
+
+      <button
+        id="usdtButton"
+        class="crypto-option"
+        type="button"
+      >
+
+        <span class="crypto-option-icon">
+          ₮
+        </span>
+
+        <span class="crypto-option-text">
+
+          <strong>
+            USDT
+          </strong>
+
+          <small>
+            Tether
+          </small>
+
+        </span>
+
+        <span class="crypto-arrow">
+          ›
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CRYPTO PAYMENT DETAILS
+  ========================== -->
+
+  <div
+    id="cryptoDetailsScreen"
+    class="crypto-details-screen"
+  >
+
+    <button
+      id="closeCryptoDetailsButton"
+      class="close-crypto-details-button"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+
+    <div class="crypto-details-content">
+
+      <div
+        id="selectedCryptoIcon"
+        class="crypto-details-icon"
+      >
+        ₿
+      </div>
+
+
+      <h2 id="selectedCryptoName">
+        Bitcoin
+      </h2>
+
+
+      <p
+        id="selectedCryptoSubtitle"
+        class="crypto-details-subtitle"
+      >
+        Bitcoin payment
+      </p>
+
+
+      <div class="crypto-payment-card">
+
+        <span class="crypto-payment-label">
+          Amount
+        </span>
+
+
+        <strong id="cryptoAmount">
+          $5.00
+        </strong>
+
+
+        <span class="crypto-payment-label">
+          Payment address
+        </span>
+
+
+        <div class="crypto-address-box">
+
+          <span id="cryptoAddress">
+            Payment address will appear here
+          </span>
+
+
+          <button
+            id="copyCryptoAddressButton"
+            type="button"
+          >
+            Copy
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="cryptoPaidButton"
+        class="crypto-paid-button"
+        type="button"
+      >
+        I've made the payment
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CHAT
+  ========================== -->
+
   <main id="chatBox">
+
     <div class="message ai">
       Hello! How can I help you today?
     </div>
+
   </main>
+
+
+  <!-- =========================
+       INPUT AREA
+  ========================== -->
 
   <div class="input-area">
 
+
     <!-- TOOLS MENU -->
-    <div class="tools-menu" id="toolsMenu">
+
+    <div
+      class="tools-menu"
+      id="toolsMenu"
+    >
+
 
       <!-- UPLOAD -->
-      <button id="uploadButton" type="button" title="Upload">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
+
+      <button
+        id="uploadButton"
+        type="button"
+        title="Upload"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
+          <path
+            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+          />
+
+          <polyline
+            points="17 8 12 3 7 8"
+          />
+
+          <line
+            x1="12"
+            y1="3"
+            x2="12"
+            y2="15"
+          />
+
         </svg>
+
       </button>
+
 
       <!-- THINK -->
-      <button id="thinkButton" type="button" title="Think">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
+
+      <button
+        id="thinkButton"
+        type="button"
+        title="Think"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
           <path d="M9 18h6"/>
+
           <path d="M10 22h4"/>
-          <path d="M8.5 14.5C7.6 13.7 7 12.4 7 11a5 5 0 0 1 10 0c0 1.4-.6 2.7-1.5 3.5-.7.6-1.1 1.2-1.3 2.5h-4.4c-.2-1.3-.6-1.9-1.3-2.5z"/>
+
+          <path
+            d="M8.5 14.5C7.6 13.7 7 12.4 7 11a5 5 0 0 1 10 0c0 1.4-.6 2.7-1.5 3.5-.7.6-1.1 1.2-1.3 2.5h-4.4c-.2-1.3-.6-1.9-1.3-2.5z"
+          />
+
           <path d="M12 2V1"/>
+
           <path d="M4.9 4.9 4.2 4.2"/>
+
           <path d="M19.1 4.9l.7-.7"/>
+
         </svg>
+
       </button>
+
 
       <!-- CAMERA -->
-      <button id="cameraButton" type="button" title="Camera">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M14.5 4h-5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3z"/>
-          <circle cx="12" cy="13" r="3.5"/>
+
+      <button
+        id="cameraButton"
+        type="button"
+        title="Camera"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
+          <path
+            d="M14.5 4h-5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3z"
+          />
+
+          <circle
+            cx="12"
+            cy="13"
+            r="3.5"
+          />
+
         </svg>
+
       </button>
+
 
       <!-- PHOTO -->
-      <button id="photoButton" type="button" title="Photo">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="16" rx="2"/>
-          <circle cx="8.5" cy="9" r="1.5"/>
-          <path d="m21 15-5-5L5 20"/>
+
+      <button
+        id="photoButton"
+        type="button"
+        title="Photo"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
+          <rect
+            x="3"
+            y="4"
+            width="18"
+            height="16"
+            rx="2"
+          />
+
+          <circle
+            cx="8.5"
+            cy="9"
+            r="1.5"
+          />
+
+          <path
+            d="m21 15-5-5L5 20"
+          />
+
         </svg>
+
       </button>
 
+
       <!-- MICROPHONE -->
-      <button id="micButton" type="button" title="Microphone">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <rect x="9" y="2" width="6" height="12" rx="3"/>
-          <path d="M5 11a7 7 0 0 0 14 0"/>
-          <line x1="12" y1="18" x2="12" y2="22"/>
-          <line x1="8" y1="22" x2="16" y2="22"/>
+
+      <button
+        id="micButton"
+        type="button"
+        title="Microphone"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+
+          <rect
+            x="9"
+            y="2"
+            width="6"
+            height="12"
+            rx="3"
+          />
+
+          <path
+            d="M5 11a7 7 0 0 0 14 0"
+          />
+
+          <line
+            x1="12"
+            y1="18"
+            x2="12"
+            y2="22"
+          />
+
+          <line
+            x1="8"
+            y1="22"
+            x2="16"
+            y2="22"
+          />
+
         </svg>
+
       </button>
 
     </div>
 
-    <!-- HIDDEN FILE INPUTS -->
-    <input type="file" id="fileInput" hidden>
+
+    <!-- =========================
+         HIDDEN FILE INPUTS
+    ========================== -->
+
+    <input
+      type="file"
+      id="fileInput"
+      hidden
+    >
 
     <input
       type="file"
@@ -151,54 +915,136 @@
       hidden
     >
 
-    <!-- IMAGE PREVIEW -->
-    <div id="imagePreview" class="image-preview" style="display:none;">
-      <img id="previewImage" src="" alt="Selected image">
 
-      <button id="removeImageButton" type="button" title="Remove image">
+    <!-- =========================
+         IMAGE PREVIEW
+    ========================== -->
+
+    <div
+      id="imagePreview"
+      class="image-preview"
+      style="display:none;"
+    >
+
+      <img
+        id="previewImage"
+        src=""
+        alt="Selected image"
+      >
+
+      <button
+        id="removeImageButton"
+        type="button"
+        title="Remove image"
+      >
         ×
       </button>
+
     </div>
 
-    <!-- TEXT BOX -->
+
+    <!-- =========================
+         TEXT BOX
+    ========================== -->
+
     <div class="text-box-wrapper">
 
-      <!-- PLUS -->
-      <button id="plusButton" type="button" title="More">
-        <svg viewBox="0 0 24 24" width="21" height="21" fill="none"
-          stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
+
+      <!-- PLUS BUTTON -->
+
+      <button
+        id="plusButton"
+        type="button"
+        title="More"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="21"
+          height="21"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+        >
+
+          <line
+            x1="12"
+            y1="5"
+            x2="12"
+            y2="19"
+          />
+
+          <line
+            x1="5"
+            y1="12"
+            x2="19"
+            y2="12"
+          />
+
         </svg>
+
       </button>
 
+
       <!-- TEXT INPUT -->
+
       <textarea
         id="userInput"
         placeholder="Ask anything..."
         rows="1"
       ></textarea>
 
-      <!-- SEND -->
-      <button id="sendButton" type="button" title="Send">
-        <svg viewBox="0 0 24 24" width="19" height="19" fill="none"
-          stroke="currentColor" stroke-width="2.5"
+
+      <!-- SEND BUTTON -->
+
+      <button
+        id="sendButton"
+        type="button"
+        title="Send"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          width="19"
+          height="19"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
           stroke-linecap="round"
-          stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
+          stroke-linejoin="round"
+        >
+
+          <line
+            x1="5"
+            y1="12"
+            x2="19"
+            y2="12"
+          />
+
+          <polyline
+            points="12 5 19 12 12 19"
+          />
+
         </svg>
+
       </button>
 
     </div>
 
-    <!-- FILE NAME / STATUS -->
+
+    <!-- FILE / STATUS -->
+
     <div id="fileName"></div>
 
   </div>
 
 </div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
 
 <script src="script.js"></script>
 

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ethereum Payment - GPT Hub Pro</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f0d;
+      color: #ffffff;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      padding: 18px 16px 35px;
+    }
+
+    /* HEADER */
+
+    .top-bar {
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #29312c;
+      border-radius: 13px;
+      background: #111713;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-button:active {
+      transform: scale(0.95);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #627eea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .secure {
+      font-size: 12px;
+      color: #8d9992;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* HERO */
+
+    .hero {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 25px;
+    }
+
+    .ethereum-large {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #627eea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(98, 126, 234, 0.18);
+    }
+
+    .ethereum-symbol {
+      color: white;
+      font-size: 43px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      color: #909b95;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* PLAN CARD */
+
+    .plan-card {
+      background: linear-gradient(
+        145deg,
+        #171d19,
+        #101511
+      );
+      border: 1px solid #29312c;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .plan-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 17px;
+    }
+
+    .plan-name {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .pro-badge {
+      background: #d8f7df;
+      color: #15351d;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 34px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .price span {
+      font-size: 14px;
+      color: #8f9993;
+      font-weight: 400;
+    }
+
+    .plan-description {
+      color: #89948e;
+      font-size: 13px;
+    }
+
+    /* PAYMENT CARD */
+
+    .payment-card {
+      background: #111713;
+      border: 1px solid #29312c;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      color: #818c85;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* QR */
+
+    .qr-container {
+      width: 190px;
+      height: 190px;
+      background: white;
+      border-radius: 16px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .qr-container img {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+    }
+
+    .qr-placeholder {
+      color: #333;
+      font-size: 12px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ADDRESS */
+
+    .field-label {
+      display: block;
+      color: #9aa49f;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .address-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0b0f0d;
+      border: 1px solid #303933;
+      border-radius: 13px;
+      padding: 7px;
+      margin-bottom: 14px;
+    }
+
+    .address-text {
+      flex: 1;
+      min-width: 0;
+      color: #dce2de;
+      font-size: 12px;
+      line-height: 1.4;
+      word-break: break-all;
+      padding: 7px;
+    }
+
+    .copy-button {
+      flex-shrink: 0;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #101410;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-button:active {
+      transform: scale(0.96);
+    }
+
+    /* AMOUNT */
+
+    .amount-box {
+      background: #0b0f0d;
+      border: 1px solid #303933;
+      border-radius: 13px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .amount-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .amount-label {
+      color: #8e9992;
+      font-size: 12px;
+    }
+
+    .amount-value {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .amount-value small {
+      display: block;
+      color: #7f8b84;
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 3px;
+    }
+
+    /* WARNING */
+
+    .warning {
+      display: flex;
+      gap: 10px;
+      background: rgba(98, 126, 234, 0.07);
+      border: 1px solid rgba(98, 126, 234, 0.22);
+      border-radius: 13px;
+      padding: 13px;
+      margin-bottom: 18px;
+    }
+
+    .warning-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .warning p {
+      color: #b9bcb9;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .warning strong {
+      color: #ffffff;
+    }
+
+    /* TRANSACTION */
+
+    .transaction-input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #303933;
+      border-radius: 13px;
+      outline: none;
+      background: #0b0f0d;
+      color: white;
+      padding: 0 14px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .transaction-input:focus {
+      border-color: #6f7c74;
+    }
+
+    .transaction-input::placeholder {
+      color: #626c66;
+    }
+
+    /* BUTTON */
+
+    .paid-button {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #101410;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .paid-button:active {
+      transform: scale(0.98);
+    }
+
+    /* STATUS */
+
+    .status-card {
+      display: none;
+      background: #111713;
+      border: 1px solid #29312c;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .status-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #1c261f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 23px;
+    }
+
+    .status-card h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .status-card p {
+      color: #8c9790;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      text-align: center;
+      color: #626c66;
+      font-size: 11px;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    /* TOAST */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 25px;
+      transform: translateX(-50%) translateY(20px);
+      background: #ffffff;
+      color: #101410;
+      padding: 11px 17px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s;
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 380px) {
+
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .price {
+        font-size: 30px;
+      }
+
+      .qr-container {
+        width: 170px;
+        height: 170px;
+      }
+
+      .qr-container img {
+        width: 150px;
+        height: 150px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- HEADER -->
+
+    <div class="top-bar">
+
+      <button
+        class="back-button"
+        id="backButton">
+        ‹
+      </button>
+
+      <div class="brand">
+
+        <div class="brand-icon">
+          ♦
+        </div>
+
+        <span>
+          GPT Hub Pro
+        </span>
+
+      </div>
+
+      <div class="secure">
+        🔒 Secure
+      </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="ethereum-large">
+
+        <div class="ethereum-symbol">
+          ♦
+        </div>
+
+      </div>
+
+      <h1>
+        Pay with Ethereum
+      </h1>
+
+      <p>
+        Complete your GPT Hub Pro subscription<br>
+        using Ethereum.
+      </p>
+
+    </section>
+
+
+    <!-- PLAN -->
+
+    <section class="plan-card">
+
+      <div class="plan-top">
+
+        <div class="plan-name">
+          GPT Hub Pro
+        </div>
+
+        <div class="pro-badge">
+          PRO
+        </div>
+
+      </div>
+
+      <div class="price">
+        $5 <span>/ week</span>
+      </div>
+
+      <div class="plan-description">
+        Pro access billed weekly.
+      </div>
+
+    </section>
+
+
+    <!-- PAYMENT -->
+
+    <section class="payment-card">
+
+      <div class="section-title">
+        Send Ethereum
+      </div>
+
+      <div class="section-subtitle">
+        Scan the QR code or copy the Ethereum address below
+        to make your payment.
+      </div>
+
+
+      <!-- QR CODE -->
+
+      <div class="qr-container">
+
+        <div class="qr-placeholder">
+          QR CODE<br>
+          WILL APPEAR HERE
+        </div>
+
+      </div>
+
+
+      <!-- ADDRESS -->
+
+      <label class="field-label">
+        Ethereum payment address
+      </label>
+
+      <div class="address-box">
+
+        <div
+          class="address-text"
+          id="ethereumAddress">
+          YOUR_ETHEREUM_ADDRESS_HERE
+        </div>
+
+        <button
+          class="copy-button"
+          id="copyButton">
+          Copy
+        </button>
+
+      </div>
+
+
+      <!-- AMOUNT -->
+
+      <div class="amount-box">
+
+        <div class="amount-row">
+
+          <div class="amount-label">
+            Payment
+          </div>
+
+          <div class="amount-value">
+            $5.00
+            <small>
+              Ethereum equivalent
+            </small>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- WARNING -->
+
+      <div class="warning">
+
+        <div class="warning-icon">
+          ⚠️
+        </div>
+
+        <p>
+          <strong>Security notice:</strong>
+          Only send ETH to the payment address shown
+          above. Never enter or share your seed phrase,
+          private key, or wallet password.
+        </p>
+
+      </div>
+
+
+      <!-- TRANSACTION -->
+
+      <label class="field-label">
+        Transaction ID
+      </label>
+
+      <input
+        type="text"
+        id="transactionId"
+        class="transaction-input"
+        placeholder="Enter your Ethereum transaction ID"
+        autocomplete="off"
+      >
+
+
+      <!-- PAID BUTTON -->
+
+      <button
+        class="paid-button"
+        id="paidButton">
+        I've Paid
+      </button>
+
+    </section>
+
+
+    <!-- STATUS -->
+
+    <section
+      class="status-card"
+      id="statusCard">
+
+      <div class="status-icon">
+        ✓
+      </div>
+
+      <h3>
+        Payment submitted
+      </h3>
+
+      <p>
+        Your transaction has been submitted for
+        verification. Your Pro access should only be
+        activated after the payment is confirmed.
+      </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+      GPT Hub Pro · Ethereum Checkout<br>
+      Payments are subject to blockchain confirmation.
+    </div>
+
+  </main>
+
+
+  <!-- TOAST -->
+
+  <div
+    class="toast"
+    id="toast">
+    Copied!
+  </div>
+
+
+  <script>
+
+    const backButton =
+      document.getElementById("backButton");
+
+    const copyButton =
+      document.getElementById("copyButton");
+
+    const ethereumAddress =
+      document.getElementById("ethereumAddress");
+
+    const paidButton =
+      document.getElementById("paidButton");
+
+    const transactionId =
+      document.getElementById("transactionId");
+
+    const statusCard =
+      document.getElementById("statusCard");
+
+    const toast =
+      document.getElementById("toast");
+
+
+    /* BACK */
+
+    backButton.addEventListener(
+      "click",
+      function() {
+
+        window.history.back();
+
+      }
+    );
+
+
+    /* COPY */
+
+    copyButton.addEventListener(
+      "click",
+      async function() {
+
+        const address =
+          ethereumAddress.textContent.trim();
+
+        if (
+          !address ||
+          address ===
+          "YOUR_ETHEREUM_ADDRESS_HERE"
+        ) {
+
+          showToast(
+            "Add your Ethereum address first"
+          );
+
+          return;
+        }
+
+        try {
+
+          await navigator.clipboard.writeText(
+            address
+          );
+
+          copyButton.textContent =
+            "Copied!";
+
+          showToast(
+            "Ethereum address copied"
+          );
+
+          setTimeout(
+            function() {
+
+              copyButton.textContent =
+                "Copy";
+
+            },
+            1800
+          );
+
+        } catch (error) {
+
+          showToast(
+            "Unable to copy address"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* PAYMENT */
+
+    paidButton.addEventListener(
+      "click",
+      function() {
+
+        const txid =
+          transactionId.value.trim();
+
+        if (!txid) {
+
+          transactionId.focus();
+
+          showToast(
+            "Enter your transaction ID"
+          );
+
+          return;
+        }
+
+        statusCard.style.display =
+          "block";
+
+        paidButton.textContent =
+          "Payment Submitted";
+
+        paidButton.disabled =
+          true;
+
+        paidButton.style.opacity =
+          "0.6";
+
+        transactionId.disabled =
+          true;
+
+        showToast(
+          "Payment submitted"
+        );
+
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+
+      }
+    );
+
+
+    /* TOAST */
+
+    function showToast(message) {
+
+      toast.textContent =
+        message;
+
+      toast.classList.add(
+        "show"
+      );
+
+      setTimeout(
+        function() {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2200
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>

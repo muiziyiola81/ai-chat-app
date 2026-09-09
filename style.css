@@ -1,3 +1,7 @@
+/* =========================
+   RESET
+========================= */
+
 * {
   box-sizing: border-box;
 }
@@ -14,47 +18,181 @@ body {
   color: white;
 }
 
+
+/* =========================
+   APP
+========================= */
+
 .app {
+  position: relative;
   width: 100%;
   max-width: 600px;
   height: 100dvh;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  background: #111614;
+  background: #0b0f0d;
+  overflow: hidden;
 }
+
 
 /* =========================
    HEADER
 ========================= */
 
 header {
-  height: 55px;
-  min-height: 55px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 4000;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.header-logo {
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #252b28;
+  color: white;
 }
 
-header h1 {
+.header-logo svg {
+  width: 25px;
+  height: 25px;
+}
+
+.header-brand h1 {
   margin: 0;
   font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
 }
+
+
+/* =========================
+   THREE DOT BUTTON
+========================= */
+
+#settingsButton {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+#settingsButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+#settingsButton:active {
+  transform: scale(0.9);
+}
+
+#settingsButton:hover {
+  background: #1b211e;
+}
+
+
+/* =========================
+   GPT HUB MENU
+========================= */
+
+.theme-menu {
+  position: absolute;
+  top: 55px;
+  right: 12px;
+  width: 175px;
+  background: #1b211e;
+  border: 1px solid #303833;
+  border-radius: 14px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 5000;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+.theme-menu.open {
+  display: flex;
+}
+
+.theme-menu button {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+.theme-menu button:active {
+  background: #26332c;
+}
+
+.theme-check {
+  display: none;
+  color: #7cffb2;
+  font-weight: bold;
+}
+
+.theme-check.active {
+  display: block;
+}
+
 
 /* =========================
    CHAT
 ========================= */
 
 #chatBox {
-  flex: 1;
-  min-height: 0;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 105px;
+  padding: 15px 20px 20px;
   overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
+
+#chatBox::-webkit-scrollbar {
+  width: 4px;
+}
+
+#chatBox::-webkit-scrollbar-thumb {
+  background: #303833;
+  border-radius: 10px;
+}
+
 
 /* =========================
    MESSAGES
@@ -62,264 +200,175 @@ header h1 {
 
 .message {
   max-width: 82%;
-  padding: 8px 11px;
-  border-radius: 22px;
-  font-size: 15px;
-  line-height: 1.4;
+  padding: 11px 15px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  font-size: 16px;
+  line-height: 1.45;
   word-wrap: break-word;
 }
 
 .message.ai {
-  align-self: flex-start;
   background: #1b211e;
+  color: white;
+  margin-right: auto;
+  border-bottom-left-radius: 6px;
 }
 
 .message.user {
-  align-self: flex-end;
   background: #26332c;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 6px;
 }
+
+
+/* =========================
+   COPY REPLY BUTTON
+========================= */
+
+.copy-reply-button {
+  width: 40px;
+  height: 32px;
+  margin: -3px 0 14px 7px;
+  border: 1px solid #303833;
+  border-radius: 12px;
+  background: #111613;
+  color: #aab3ad;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.copy-reply-button:active {
+  transform: scale(0.94);
+}
+
+
+/* =========================
+   SENT IMAGE
+========================= */
+
+.sent-image {
+  margin-left: auto;
+  margin-bottom: 8px;
+  max-width: 82%;
+  text-align: right;
+}
+
+.sent-image img {
+  border: 1px solid #303833;
+}
+
 
 /* =========================
    INPUT AREA
 ========================= */
 
 .input-area {
-  position: relative;
-  flex-shrink: 0;
-  padding: 7px 10px 9px;
-  background: #111614;
-  border-top: 1px solid #252b28;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 105px;
+  padding: 10px 14px 20px;
+  background: #0b0f0d;
+  z-index: 3000;
 }
+
 
 /* =========================
-   TOOLS MENU
-========================= */
-
-.tools-menu {
-  width: 96%;
-  margin: 0 auto 7px;
-  height: 0;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 7px;
-
-  opacity: 0;
-
-  transition:
-    height 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.tools-menu.open {
-  height: 72px;
-  opacity: 1;
-}
-
-/* =========================
-   FIVE TOOL BUTTONS
-========================= */
-
-.tools-menu button {
-  flex: 1;
-
-  width: 62px;
-  height: 64px;
-  min-width: 62px;
-  min-height: 64px;
-
-  padding: 5px;
-
-  border: none;
-  outline: none;
-  border-radius: 16px;
-
-  /* TRANSPARENT BACKGROUND */
-  background: transparent;
-
-  color: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-.tools-menu button:hover {
-  background: rgba(38, 51, 44, 0.45);
-}
-
-.tools-menu button:active {
-  transform: scale(0.94);
-}
-
-/* TOOL ICONS */
-
-.tools-menu svg {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-}
-
-/* =========================
-   THINK ACTIVE
-========================= */
-
-.tools-menu button.active {
-  background: rgba(38, 51, 44, 0.55);
-  color: #ffffff;
-}
-
-/* =========================
-   TEXT BOX WRAPPER
+   TEXT BOX
 ========================= */
 
 .text-box-wrapper {
-  position: relative;
-  width: 96%;
-  margin: 0 auto;
-  min-height: 56px;
-}
-
-/* =========================
-   TEXT AREA
-========================= */
-
-#userInput {
-  display: block;
-
   width: 100%;
-  min-height: 56px;
-  max-height: 100px;
-
-  resize: none;
-
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 7px 6px 8px;
+  background: #1b211e;
   border: 1px solid #303833;
-  border-radius: 29px;
-
-  outline: none;
-
-  padding: 15px 64px 15px 70px;
-
-  background: #1a201d;
-  color: white;
-
-  font-size: 16px;
-  line-height: 22px;
-
-  overflow-y: auto;
+  border-radius: 30px;
 }
 
-#userInput::placeholder {
-  color: #89918c;
-}
 
 /* =========================
    PLUS BUTTON
 ========================= */
 
 #plusButton {
-  position: absolute;
-
-  left: 5px;
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  width: 52px;
-  height: 52px;
-
-  min-width: 52px;
-  min-height: 52px;
-
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
   border: none;
-  outline: none;
-
   border-radius: 50%;
-
-  /* NO WHITE BACKGROUND */
   background: transparent;
-
-  color: #ffffff;
-
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
-
-  z-index: 3;
-
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-#plusButton:hover {
-  background: rgba(37, 45, 40, 0.55);
-}
-
-#plusButton:active {
-  transform: translateY(-50%) scale(0.92);
 }
 
 #plusButton svg {
-  width: 34px;
-  height: 34px;
+  width: 28px;
+  height: 28px;
 }
+
+#plusButton:active {
+  transform: scale(0.9);
+}
+
+
+/* =========================
+   TEXTAREA
+========================= */
+
+#userInput {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  max-height: 100px;
+  resize: none;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  line-height: 22px;
+  padding: 10px 4px;
+}
+
+#userInput::placeholder {
+  color: #858d88;
+}
+
+#userInput::-webkit-scrollbar {
+  width: 3px;
+}
+
 
 /* =========================
    SEND BUTTON
 ========================= */
 
 #sendButton {
-  position: absolute;
-
-  right: 6px;
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  z-index: 3;
-
-  width: 46px;
-  height: 46px;
-
-  min-width: 46px;
-  min-height: 46px;
-
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
   border: none;
-  outline: none;
-
   border-radius: 50%;
-
-  background: #1f8f4d;
-  color: #ffffff;
-
+  background: green;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-#sendButton:hover {
-  background: #27a75b;
-}
-
-#sendButton:active {
-  transform: translateY(-50%) scale(0.92);
 }
 
 #sendButton svg {
@@ -327,21 +376,118 @@ header h1 {
   height: 25px;
 }
 
+#sendButton:active {
+  transform: scale(0.92);
+}
+
+
 /* =========================
-   FILE NAME
+   TOOLS MENU
+   HORIZONTAL + FULL WIDTH
+========================= */
+
+.tools-menu {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 110px;
+
+  width: auto;
+
+  padding: 6px;
+
+  background: #1b211e;
+  border: 1px solid #303833;
+  border-radius: 18px;
+
+  display: none;
+  flex-direction: row;
+  align-items: stretch;
+
+  gap: 5px;
+
+  z-index: 4000;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.45);
+
+  overflow-x: auto;
+}
+
+.tools-menu.open {
+  display: flex;
+}
+
+
+/* =========================
+   TOOLS BUTTONS
+========================= */
+
+.tools-menu button {
+  flex: 1 1 0;
+  min-width: 55px;
+  height: 52px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.tools-menu button:active {
+  background: transparent;
+  transform: scale(0.92);
+}
+
+
+/* =========================
+   THINK ACTIVE STATE
+========================= */
+
+#thinkButton {
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+#thinkButton.active {
+  background: transparent;
+  color: #7cffb2;
+  border: 1px solid #7cffb2;
+  box-shadow:
+    0 0 10px rgba(124, 255, 178, 0.25);
+}
+
+#thinkButton.active svg {
+  stroke: #7cffb2;
+}
+
+#thinkButton:active {
+  transform: scale(0.94);
+}
+
+
+/* =========================
+   FILE NAME / STATUS
 ========================= */
 
 #fileName {
-  width: 96%;
-  margin: 3px auto 0;
-
+  min-height: 18px;
+  margin-top: 5px;
+  padding-left: 12px;
+  color: #89938d;
   font-size: 12px;
-  color: #8f9993;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+
 
 /* =========================
    IMAGE PREVIEW
@@ -349,322 +495,117 @@ header h1 {
 
 .image-preview {
   position: relative;
-  width: 96%;
-  margin: 0 auto 7px;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 7px;
 }
 
 .image-preview img {
-  display: block;
-
-  max-width: 180px;
-  max-height: 180px;
-
-  width: auto;
-  height: auto;
-
-  border-radius: 14px;
-
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-
+  border-radius: 12px;
+  border: 1px solid #303833;
   cursor: pointer;
 }
-
-/* =========================
-   REMOVE IMAGE BUTTON
-========================= */
 
 #removeImageButton {
   position: absolute;
-
-  top: 6px;
-  left: 145px;
-
-  width: 28px;
-  height: 28px;
-
+  top: -7px;
+  right: -7px;
+  width: 25px;
+  height: 25px;
   border: none;
   border-radius: 50%;
-
-  background: #111614;
+  background: #252b28;
   color: white;
-
-  font-size: 20px;
-  line-height: 28px;
-
+  font-size: 18px;
+  line-height: 1;
   cursor: pointer;
 }
 
-/* =========================
-   SENT IMAGE
-========================= */
-
-.sent-image {
-  align-self: flex-end;
-
-  width: fit-content;
-  max-width: 220px;
-
-  margin: 0;
-  padding: 0;
-
-  background: transparent;
-}
-
-.sent-image img {
-  display: block;
-
-  width: auto;
-
-  max-width: 220px;
-  max-height: 220px;
-
-  height: auto;
-
-  border-radius: 14px;
-
-  object-fit: contain;
-
-  cursor: pointer;
-}
 
 /* =========================
-   IMAGE MESSAGE
-========================= */
-
-.image-message {
-  align-self: flex-end;
-
-  background: transparent !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* =========================
-   IMAGE VIEWER
-========================= */
-
-#imageViewer {
-  position: fixed;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  z-index: 99999;
-
-  background: rgba(0, 0, 0, 0.96);
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-}
-
-/* =========================
-   LARGE VIEWER IMAGE
-========================= */
-
-#imageViewer img {
-  display: block;
-
-  max-width: 95vw;
-  max-height: 90vh;
-
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-
-  border-radius: 12px;
-}
-
-/* =========================
-   VIEWER CLOSE BUTTON
-========================= */
-
-#closeImageViewer {
-  position: absolute;
-
-  top: 15px;
-  right: 15px;
-
-  width: 44px;
-  height: 44px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #1b211e;
-  color: white;
-
-  font-size: 28px;
-  line-height: 44px;
-
-  padding: 0;
-
-  cursor: pointer;
-
-  z-index: 100000;
-}
-
-/* =========================
-   SMALL PHONES
-========================= */
-
-@media (max-width: 380px) {
-
-  header {
-    height: 50px;
-    min-height: 50px;
-  }
-
-  header h1 {
-    font-size: 18px;
-  }
-
-  #chatBox {
-    padding: 8px;
-  }
-
-  .input-area {
-    padding: 6px 7px 8px;
-  }
-
-  .tools-menu,
-  .text-box-wrapper,
-  #fileName {
-    width: 96%;
-  }
-
-  .message {
-    max-width: 88%;
-    font-size: 14px;
-    border-radius: 22px;
-  }
-
-  /* BIGGER TOOL BUTTONS ON SMALL PHONES */
-
-  .tools-menu {
-    gap: 4px;
-  }
-
-  .tools-menu.open {
-    height: 68px;
-  }
-
-  .tools-menu button {
-    width: 58px;
-    height: 60px;
-    min-width: 58px;
-    min-height: 60px;
-
-    border-radius: 14px;
-  }
-
-  .tools-menu svg {
-    width: 29px;
-    height: 29px;
-  }
-
-  #userInput {
-    min-height: 52px;
-
-    padding-left: 64px;
-    padding-right: 58px;
-
-    font-size: 15px;
-  }
-
-  #plusButton {
-    width: 50px;
-    height: 50px;
-
-    min-width: 50px;
-    min-height: 50px;
-
-    left: 5px;
-  }
-
-  #plusButton svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  #sendButton {
-    width: 42px;
-    height: 42px;
-
-    min-width: 42px;
-    min-height: 42px;
-
-    right: 5px;
-  }
-
-  #sendButton svg {
-    width: 23px;
-    height: 23px;
-  }
-
-  .sent-image {
-    max-width: 200px;
-  }
-
-  .sent-image img {
-    max-width: 200px;
-    max-height: 200px;
-  }
-}
-
-/* =========================
-   CHAT HISTORY DRAWER
+   HISTORY DRAWER
 ========================= */
 
 .history-drawer {
   position: fixed;
-
   top: 0;
   left: 0;
-
-  width: 290px;
-  max-width: 82vw;
-  height: 100vh;
-
-  background: #111614;
-
-  border-right: 1px solid #26332c;
-
-  z-index: 100001;
-
+  bottom: 0;
+  width: min(82%, 340px);
+  background: #111613;
+  border-right: 1px solid #303833;
   transform: translateX(-100%);
-
   transition: transform 0.25s ease;
-
-  box-shadow: 8px 0 25px rgba(0, 0, 0, 0.35);
-
-  display: flex;
-  flex-direction: column;
+  z-index: 10000;
+  overflow-y: auto;
 }
 
 .history-drawer.open {
   transform: translateX(0);
 }
 
+.history-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid #252c28;
+}
+
+.history-header h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+#closeHistoryButton {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.history-list {
+  padding: 10px;
+}
+
+.history-item {
+  padding: 14px;
+  margin-bottom: 7px;
+  background: #1b211e;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.history-item:active {
+  background: #26332c;
+}
+
+.history-item-title {
+  color: white;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.history-empty {
+  padding: 20px 10px;
+  color: #858d88;
+  text-align: center;
+  font-size: 14px;
+}
+
 .history-overlay {
   position: fixed;
-
   inset: 0;
-
-  background: rgba(0, 0, 0, 0.45);
-
-  z-index: 100000;
-
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9000;
   display: none;
 }
 
@@ -672,125 +613,684 @@ header h1 {
   display: block;
 }
 
-.history-header {
-  height: 65px;
-
-  padding: 0 15px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-bottom: 1px solid #26332c;
-}
-
-.history-header h2 {
-  margin: 0;
-
-  font-size: 19px;
-
-  color: white;
-}
-
-.history-header button {
-  width: 38px;
-  height: 38px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: transparent;
-
-  color: white;
-
-  font-size: 26px;
-  line-height: 1;
-
-  cursor: pointer;
-}
-
-.history-header button:hover {
-  background: #202722;
-}
-
-.history-list {
-  flex: 1;
-
-  overflow-y: auto;
-
-  padding: 10px;
-}
-
-.history-item {
-  padding: 13px;
-
-  margin-bottom: 8px;
-
-  background: #1b211e;
-
-  border: 1px solid #26332c;
-
-  border-radius: 10px;
-
-  color: white;
-
-  cursor: pointer;
-}
-
-.history-item:hover {
-  background: #222b26;
-}
-
-.history-item-title {
-  font-size: 15px;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-.history-empty {
-  color: #8b948f;
-
-  text-align: center;
-
-  padding: 30px 10px;
-
-  font-size: 14px;
-}
 
 /* =========================
-   COPY AI REPLY BUTTON
+   PRO SCREEN
 ========================= */
 
-.copy-reply-button {
-  align-self: flex-start;
+.pro-screen {
+  position: fixed;
+  inset: 0;
+  background: #0b0f0d;
+  color: white;
+  z-index: 20000;
+  display: none;
+  overflow-y: auto;
+}
 
-  margin: 3px 0 8px 4px;
+.pro-screen.open {
+  display: block;
+}
 
-  width: 32px;
-  height: 32px;
-
-  padding: 0;
-
-  border: 1px solid #303833;
-
-  border-radius: 8px;
-
+.close-pro-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
   background: #1b211e;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
 
-  color: #aeb7b1;
+.close-pro-button:active {
+  transform: scale(0.92);
+}
 
+.pro-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 70px 24px 40px;
+  text-align: center;
+}
+
+.pro-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 20px;
+  background: #26332c;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 34px;
+  color: #7cffb2;
+}
 
+.pro-content h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.pro-subtitle {
+  margin: 10px auto 30px;
+  max-width: 320px;
+  color: #aab3ad;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.pro-features {
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.pro-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #252c28;
+  border-radius: 15px;
+  background: #111613;
+}
+
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #26332c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7cffb2;
+  font-size: 16px;
+}
+
+.pro-feature strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.pro-feature p {
+  margin: 0;
+  color: #9da59f;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.upgrade-pro-button {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 26px;
+  background: #18a957;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.copy-reply-button:hover {
-  background: #26332c;
+.upgrade-pro-button:active {
+  transform: scale(0.98);
+}
+
+.pro-note {
+  margin-top: 14px;
+  color: #737b76;
+  font-size: 12px;
+}
+
+
+/* =========================
+   LIGHT THEME
+========================= */
+
+body.light-theme,
+body.light-theme .app {
+  background: #f5f5f5;
+  color: #111;
+}
+
+body.light-theme header {
+  color: #111;
+}
+
+body.light-theme .header-logo {
+  color: #111;
+}
+
+body.light-theme #settingsButton {
+  color: #111;
+}
+
+body.light-theme #settingsButton:hover {
+  background: #e7e7e7;
+}
+
+body.light-theme #chatBox {
+  background: #f5f5f5;
+}
+
+body.light-theme .message.ai {
+  background: #e7e7e7;
+  color: #111;
+}
+
+body.light-theme .message.user {
+  background: #dcefe3;
+  color: #111;
+}
+
+body.light-theme .input-area {
+  background: #f5f5f5;
+}
+
+body.light-theme .text-box-wrapper {
+  background: #111;
+  border-color: #d5d5d5;
+}
+
+body.light-theme #userInput {
+  color: #e7e7e7;
+}
+
+body.light-theme #userInput::placeholder {
+  color: #888;
+}
+
+body.light-theme .tools-menu {
+  background: white;
+  border-color: #d5d5d5;
+}
+
+body.light-theme .tools-menu button {
+  color: #111;
+  background: transparent;
+}
+
+body.light-theme .theme-menu {
+  background: white;
+  border-color: #d5d5d5;
+}
+
+body.light-theme .theme-menu button {
+  color: #111;
+}
+
+body.light-theme .theme-menu button:active {
+  background: #eeeeee;
+}
+
+body.light-theme .history-drawer {
+  background: #f5f5f5;
+  border-color: #d5d5d5;
+}
+
+body.light-theme .history-item {
+  background: white;
+  border: 1px solid #ddd;
+}
+
+body.light-theme .history-item-title {
+  color: #111;
+}
+
+body.light-theme .pro-screen {
+  background: #f5f5f5;
+  color: #111;
+}
+
+body.light-theme .close-pro-button {
+  background: #e7e7e7;
+  color: #111;
+}
+
+body.light-theme .pro-icon {
+  background: #e3e8e5;
+}
+
+body.light-theme .pro-subtitle {
+  color: #666;
+}
+
+body.light-theme .pro-feature {
+  background: white;
+  border-color: #ddd;
+}
+
+body.light-theme .pro-feature p {
+  color: #666;
+}
+
+body.light-theme .feature-icon {
+  background: #e3e8e5;
+  color: #16834a;
+}
+
+body.light-theme .pro-note {
+  color: #888;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+  #chatBox {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .message {
+    max-width: 86%;
+  }
+
+  .input-area {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .tools-menu {
+    left: 8px;
+    right: 8px;
+  }
+
+  .tools-menu button {
+    min-width: 50px;
+  }
+
+}
+/* =========================
+   PAYMENT CHOICE SCREEN
+========================= */
+
+.payment-screen {
+  position: fixed;
+  inset: 0;
+  background: #0b0f0d;
+  z-index: 10000;
+  display: none;
+  overflow-y: auto;
+}
+
+.payment-screen.open {
+  display: block;
+}
+
+.close-payment-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
   color: white;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.payment-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 80px 20px 30px;
+}
+
+.payment-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  background: #1b211e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+}
+
+.payment-content h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+  color: white;
+}
+
+.payment-subtitle {
+  margin: 10px 0 30px;
+  text-align: center;
+  color: #9aa39d;
+  font-size: 15px;
+}
+
+.payment-option {
+  width: 100%;
+  min-height: 76px;
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  border: 1px solid #303833;
+  border-radius: 18px;
+  background: #1b211e;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+}
+
+.payment-option:active {
+  transform: scale(0.98);
+}
+
+.payment-option-icon {
+  width: 44px;
+  height: 44px;
+  margin-right: 13px;
+  border-radius: 13px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  flex-shrink: 0;
+}
+
+.payment-option-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.payment-option-text strong {
+  font-size: 16px;
+}
+
+.payment-option-text small {
+  color: #9aa39d;
+  font-size: 13px;
+}
+
+.payment-arrow {
+  font-size: 28px;
+  color: #9aa39d;
+}
+
+/* =========================
+   CRYPTO PAYMENT SCREEN
+========================= */
+
+.crypto-screen {
+  position: fixed;
+  inset: 0;
+  background: #0b0f0d;
+  z-index: 11000;
+  display: none;
+  overflow-y: auto;
+}
+
+.crypto-screen.open {
+  display: block;
+}
+
+.close-crypto-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.crypto-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 80px 20px 30px;
+}
+
+.crypto-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  background: #1b211e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+}
+
+.crypto-content h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+  color: white;
+}
+
+.crypto-subtitle {
+  margin: 10px 0 30px;
+  text-align: center;
+  color: #9aa39d;
+  font-size: 15px;
+}
+
+.crypto-option {
+  width: 100%;
+  min-height: 76px;
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  border: 1px solid #303833;
+  border-radius: 18px;
+  background: #1b211e;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+}
+
+.crypto-option:active {
+  transform: scale(0.98);
+}
+
+.crypto-option-icon {
+  width: 44px;
+  height: 44px;
+  margin-right: 13px;
+  border-radius: 13px;
+  background: #252c28;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.crypto-option-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.crypto-option-text strong {
+  font-size: 16px;
+}
+
+.crypto-option-text small {
+  color: #9aa39d;
+  font-size: 13px;
+}
+
+.crypto-arrow {
+  font-size: 28px;
+  color: #9aa39d;
+}
+/* =========================
+   CRYPTO PAYMENT DETAILS
+========================= */
+
+.crypto-details-screen {
+  position: fixed;
+  inset: 0;
+  background: #0b0f0d;
+  z-index: 12000;
+  display: none;
+  overflow-y: auto;
+}
+
+.crypto-details-screen.open {
+  display: block;
+}
+
+.close-crypto-details-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.crypto-details-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 80px 20px 30px;
+}
+
+.crypto-details-icon {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  background: #1b211e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 30px;
+}
+
+.crypto-details-content h2 {
+  margin: 0;
+  text-align: center;
+  color: white;
+  font-size: 28px;
+}
+
+.crypto-details-subtitle {
+  margin: 8px 0 28px;
+  text-align: center;
+  color: #9aa39d;
+  font-size: 15px;
+}
+
+.crypto-payment-card {
+  padding: 20px;
+  border: 1px solid #303833;
+  border-radius: 20px;
+  background: #1b211e;
+}
+
+.crypto-payment-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #9aa39d;
+  font-size: 13px;
+}
+
+#cryptoAmount {
+  display: block;
+  margin-bottom: 24px;
+  color: white;
+  font-size: 26px;
+}
+
+.crypto-address-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #303833;
+  border-radius: 14px;
+  background: #0b0f0d;
+}
+
+#cryptoAddress {
+  flex: 1;
+  color: #d8ddd9;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+#copyCryptoAddressButton {
+  border: none;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: #303833;
+  color: white;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.crypto-paid-button {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 18px;
+  border: none;
+  border-radius: 16px;
+  background: #1b211e;
+  border: 1px solid #303833;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.crypto-paid-button:active {
+  transform: scale(0.98);
+}
+.copy-button {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: #f7931a;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.copy-button:active {
+  transform: scale(0.98);
 }

@@ -23,35 +23,616 @@ const imagePreview = document.getElementById("imagePreview");
 const previewImage = document.getElementById("previewImage");
 const removeImageButton = document.getElementById("removeImageButton");
 
-const newChatButton = document.getElementById("newChatButton");
+const historyDrawer = document.getElementById("historyDrawer");
+const historyOverlay = document.getElementById("historyOverlay");
+const closeHistoryButton = document.getElementById("closeHistoryButton");
+const historyList = document.getElementById("historyList");
 
-const historyDrawer =
-  document.getElementById("historyDrawer");
 
-const historyOverlay =
-  document.getElementById("historyOverlay");
+/* =========================
+   THREE DOT MENU
+========================= */
 
-const closeHistoryButton =
-  document.getElementById("closeHistoryButton");
+const settingsButton =
+  document.getElementById("settingsButton");
 
-const historyList =
-  document.getElementById("historyList");
+const themeMenu =
+  document.getElementById("themeMenu");
 
+const upgradeMenuButton =
+  document.getElementById("upgradeMenuButton");
+
+const darkThemeButton =
+  document.getElementById("darkThemeButton");
+
+const lightThemeButton =
+  document.getElementById("lightThemeButton");
+
+const darkCheck =
+  document.getElementById("darkCheck");
+
+const lightCheck =
+  document.getElementById("lightCheck");
+
+
+/* =========================
+   PRO SCREEN
+========================= */
+
+const proScreen =
+  document.getElementById("proScreen");
+
+const closeProButton =
+  document.getElementById("closeProButton");
+
+const upgradeProButton =
+  document.getElementById("upgradeProButton");
+
+
+/* =========================
+   PAYMENT CHOICE
+========================= */
+
+const paymentScreen =
+  document.getElementById("paymentScreen");
+
+const closePaymentButton =
+  document.getElementById("closePaymentButton");
+
+const cardPaymentButton =
+  document.getElementById("cardPaymentButton");
+
+const cryptoPaymentButton =
+  document.getElementById("cryptoPaymentButton");
+
+
+/* =========================
+   CRYPTO SCREEN
+========================= */
+
+const cryptoScreen =
+  document.getElementById("cryptoScreen");
+
+const closeCryptoButton =
+  document.getElementById("closeCryptoButton");
+
+const bitcoinButton =
+  document.getElementById("bitcoinButton");
+
+const ethereumButton =
+  document.getElementById("ethereumButton");
+
+const usdtButton =
+  document.getElementById("usdtButton");
+
+
+/* =========================
+   CRYPTO DETAILS
+========================= */
+
+const cryptoDetailsScreen =
+  document.getElementById("cryptoDetailsScreen");
+
+const closeCryptoDetailsButton =
+  document.getElementById("closeCryptoDetailsButton");
+
+const selectedCryptoIcon =
+  document.getElementById("selectedCryptoIcon");
+
+const selectedCryptoName =
+  document.getElementById("selectedCryptoName");
+
+const selectedCryptoSubtitle =
+  document.getElementById("selectedCryptoSubtitle");
+
+
+/* =========================
+   SAFE LOCAL STORAGE LOADING
+========================= */
+
+function loadArrayFromStorage(key) {
+
+  try {
+
+    const saved =
+      localStorage.getItem(key);
+
+    if (!saved) {
+      return [];
+    }
+
+    const parsed =
+      JSON.parse(saved);
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  } catch (error) {
+
+    console.error(
+      "Failed to load " + key + ":",
+      error
+    );
+
+    return [];
+  }
+}
+
+
+/* =========================
+   STATE
+========================= */
 
 let selectedImage = null;
 let thinkMode = false;
 let cameraStream = null;
 
-let conversation = JSON.parse(
-  localStorage.getItem("aiConversation") || "[]"
-);
+let conversation =
+  loadArrayFromStorage("aiConversation");
 
-let chatHistory = JSON.parse(
-  localStorage.getItem("aiChatHistory") || "[]"
-);
+let chatHistory =
+  loadArrayFromStorage("aiChatHistory");
 
 let touchStartX = 0;
-let touchStartY = 0;
+
+
+/* =========================
+   THREE DOT MENU
+========================= */
+
+if (
+  settingsButton &&
+  themeMenu
+) {
+
+  settingsButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      themeMenu.classList.toggle("open");
+
+      if (toolsMenu) {
+        toolsMenu.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   UPGRADE TO PRO
+========================= */
+
+if (upgradeMenuButton) {
+
+  upgradeMenuButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (themeMenu) {
+        themeMenu.classList.remove("open");
+      }
+
+      if (proScreen) {
+        proScreen.classList.add("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   PRO → PAYMENT
+========================= */
+
+if (upgradeProButton) {
+
+  upgradeProButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (proScreen) {
+        proScreen.classList.remove("open");
+      }
+
+      if (paymentScreen) {
+        paymentScreen.classList.add("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CLOSE MENUS OUTSIDE
+========================= */
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      themeMenu &&
+      settingsButton &&
+      !themeMenu.contains(event.target) &&
+      !settingsButton.contains(event.target)
+    ) {
+
+      themeMenu.classList.remove("open");
+
+    }
+
+    if (
+      toolsMenu &&
+      plusButton &&
+      !toolsMenu.contains(event.target) &&
+      !plusButton.contains(event.target)
+    ) {
+
+      toolsMenu.classList.remove("open");
+
+    }
+
+  }
+);
+
+
+/* =========================
+   CLOSE PRO
+========================= */
+
+if (closeProButton) {
+
+  closeProButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (proScreen) {
+        proScreen.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   PAYMENT SCREEN
+========================= */
+
+if (closePaymentButton) {
+
+  closePaymentButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (paymentScreen) {
+        paymentScreen.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CARD PAYMENT
+========================= */
+
+if (cardPaymentButton) {
+
+  cardPaymentButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      /*
+        Card payment will be connected later.
+      */
+
+    }
+  );
+
+}
+
+
+/* =========================
+   OPEN CRYPTO PAYMENT
+========================= */
+
+if (cryptoPaymentButton) {
+
+  cryptoPaymentButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (paymentScreen) {
+        paymentScreen.classList.remove("open");
+      }
+
+      if (cryptoScreen) {
+        cryptoScreen.classList.add("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CLOSE CRYPTO
+========================= */
+
+if (closeCryptoButton) {
+
+  closeCryptoButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (cryptoScreen) {
+        cryptoScreen.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   BITCOIN → PAYMENT PAGE
+========================= */
+
+if (bitcoinButton) {
+
+  bitcoinButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      window.location.href =
+        "bitcoin-payment.html";
+
+    }
+  );
+
+}
+
+
+/* =========================
+   ETHEREUM
+========================= */
+
+
+if (ethereumButton) {
+  ethereumButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    window.location.href = "ethereum-payment.html";
+  });
+}
+
+/* =========================
+   USDT
+========================= */
+
+if (usdtButton) {
+
+  usdtButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      openCryptoDetails(
+        "₮",
+        "USDT",
+        "Tether"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   OPEN CRYPTO DETAILS
+========================= */
+
+function openCryptoDetails(
+  icon,
+  name,
+  symbol
+) {
+
+  if (cryptoScreen) {
+    cryptoScreen.classList.remove("open");
+  }
+
+  if (selectedCryptoIcon) {
+    selectedCryptoIcon.textContent =
+      icon;
+  }
+
+  if (selectedCryptoName) {
+    selectedCryptoName.textContent =
+      name;
+  }
+
+  if (selectedCryptoSubtitle) {
+    selectedCryptoSubtitle.textContent =
+      name +
+      " payment (" +
+      symbol +
+      ")";
+  }
+
+  if (cryptoDetailsScreen) {
+    cryptoDetailsScreen.classList.add("open");
+  }
+
+}
+
+
+/* =========================
+   CLOSE CRYPTO DETAILS
+========================= */
+
+if (closeCryptoDetailsButton) {
+
+  closeCryptoDetailsButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (cryptoDetailsScreen) {
+
+        cryptoDetailsScreen.classList.remove(
+          "open"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function updateThemeChecks() {
+
+  const currentTheme =
+    localStorage.getItem("gptHubTheme") ||
+    "dark";
+
+  if (darkCheck) {
+
+    darkCheck.style.display =
+      currentTheme === "dark"
+        ? "inline"
+        : "none";
+
+  }
+
+  if (lightCheck) {
+
+    lightCheck.style.display =
+      currentTheme === "light"
+        ? "inline"
+        : "none";
+
+  }
+
+}
+
+
+function setTheme(theme) {
+
+  document.body.classList.toggle(
+    "light-theme",
+    theme === "light"
+  );
+
+  localStorage.setItem(
+    "gptHubTheme",
+    theme
+  );
+
+  updateThemeChecks();
+
+}
+
+
+if (darkThemeButton) {
+
+  darkThemeButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      setTheme("dark");
+
+      if (themeMenu) {
+        themeMenu.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+if (lightThemeButton) {
+
+  lightThemeButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      setTheme("light");
+
+      if (themeMenu) {
+        themeMenu.classList.remove("open");
+      }
+
+    }
+  );
+
+}
+
+
+setTheme(
+  localStorage.getItem("gptHubTheme") ||
+  "dark"
+);
 
 
 /* =========================
@@ -66,42 +647,45 @@ function saveCurrentChatToHistory() {
 
   const userMessages =
     conversation.filter(
-      function(message) {
-        return message.role === "user";
-      }
+      message =>
+        message.role === "user"
     );
 
   if (!userMessages.length) {
     return;
   }
 
-  const firstUserMessage =
-    userMessages[0];
-
   let title =
-    firstUserMessage.content ||
+    userMessages[0].content ||
     "Image conversation";
 
   if (!title.trim()) {
-    title = "Image conversation";
+    title =
+      "Image conversation";
   }
 
   title =
     title.substring(0, 45);
 
-  const chatObject = {
-    id: Date.now(),
-    title: title,
-    messages: JSON.parse(
-      JSON.stringify(conversation)
-    )
-  };
+  chatHistory.unshift({
 
-  chatHistory.unshift(chatObject);
+    id: Date.now(),
+
+    title: title,
+
+    messages: JSON.parse(
+      JSON.stringify(
+        conversation
+      )
+    )
+
+  });
 
   localStorage.setItem(
     "aiChatHistory",
-    JSON.stringify(chatHistory)
+    JSON.stringify(
+      chatHistory
+    )
   );
 
 }
@@ -114,9 +698,9 @@ function saveCurrentChatToHistory() {
 function openImageViewer(imageSrc) {
 
   let viewer =
-    document.getElementById("imageViewer");
-
-  let largeImage;
+    document.getElementById(
+      "imageViewer"
+    );
 
   if (!viewer) {
 
@@ -131,12 +715,6 @@ function openImageViewer(imageSrc) {
 
     viewer.style.inset =
       "0";
-
-    viewer.style.width =
-      "100%";
-
-    viewer.style.height =
-      "100%";
 
     viewer.style.background =
       "rgba(0,0,0,0.96)";
@@ -157,39 +735,30 @@ function openImageViewer(imageSrc) {
       "20px";
 
 
-    largeImage =
+    const image =
       document.createElement("img");
 
-    largeImage.id =
+    image.id =
       "viewerImage";
 
-    largeImage.style.display =
-      "block";
-
-    largeImage.style.maxWidth =
+    image.style.maxWidth =
       "95%";
 
-    largeImage.style.maxHeight =
+    image.style.maxHeight =
       "90%";
 
-    largeImage.style.width =
-      "auto";
-
-    largeImage.style.height =
-      "auto";
-
-    largeImage.style.objectFit =
+    image.style.objectFit =
       "contain";
 
-    largeImage.style.borderRadius =
+    image.style.borderRadius =
       "12px";
 
 
     const closeButton =
       document.createElement("button");
 
-    closeButton.id =
-      "closeImageViewer";
+    closeButton.type =
+      "button";
 
     closeButton.textContent =
       "×";
@@ -224,23 +793,12 @@ function openImageViewer(imageSrc) {
     closeButton.style.fontSize =
       "28px";
 
-    closeButton.style.lineHeight =
-      "44px";
-
-    closeButton.style.padding =
-      "0";
-
-    closeButton.style.zIndex =
-      "2";
-
-    closeButton.style.cursor =
-      "pointer";
-
 
     closeButton.addEventListener(
       "click",
       function(event) {
 
+        event.preventDefault();
         event.stopPropagation();
 
         viewer.remove();
@@ -249,10 +807,11 @@ function openImageViewer(imageSrc) {
     );
 
 
-    largeImage.addEventListener(
+    image.addEventListener(
       "click",
       function(event) {
 
+        event.preventDefault();
         event.stopPropagation();
 
       }
@@ -264,37 +823,27 @@ function openImageViewer(imageSrc) {
       function(event) {
 
         if (event.target === viewer) {
-
           viewer.remove();
-
         }
 
       }
     );
 
 
-    viewer.appendChild(
-      largeImage
-    );
+    viewer.appendChild(image);
+    viewer.appendChild(closeButton);
 
-    viewer.appendChild(
-      closeButton
-    );
-
-    document.body.appendChild(
-      viewer
-    );
-
-  } else {
-
-    largeImage =
-      viewer.querySelector("#viewerImage") ||
-      viewer.querySelector("img");
+    document.body.appendChild(viewer);
 
   }
 
 
-  largeImage.src =
+  const viewerImage =
+    viewer.querySelector(
+      "#viewerImage"
+    );
+
+  viewerImage.src =
     imageSrc;
 
   viewer.style.display =
@@ -304,10 +853,13 @@ function openImageViewer(imageSrc) {
 
 
 /* =========================
-   NORMAL MESSAGE
+   ADD MESSAGE
 ========================= */
 
-function addMessage(text, type) {
+function addMessage(
+  text,
+  type
+) {
 
   const message =
     document.createElement("div");
@@ -323,66 +875,61 @@ function addMessage(text, type) {
   );
 
 
-  /* COPY BUTTON FOR AI REPLIES */
-
-  if (type === "ai" && text !== "Thinking...") {
+  if (
+    type === "ai" &&
+    text !== "Thinking..."
+  ) {
 
     const copyButton =
-  document.createElement("button");
+      document.createElement("button");
 
-copyButton.type =
-  "button";
+    copyButton.type =
+      "button";
 
-copyButton.className =
-  "copy-reply-button";
+    copyButton.className =
+      "copy-reply-button";
 
-copyButton.title =
-  "Copy AI reply";
+    copyButton.title =
+      "Copy AI reply";
 
-copyButton.innerHTML = `
-  <svg
-    viewBox="0 0 24 24"
-    width="17"
-    height="17"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <rect x="9" y="9" width="11" height="11" rx="2"/>
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-  </svg>
-`;
+    copyButton.innerHTML = `
+      <svg
+        viewBox="0 0 24 24"
+        width="17"
+        height="17"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect
+          x="9"
+          y="9"
+          width="11"
+          height="11"
+          rx="2"
+        />
 
-copyButton.addEventListener(
-  "click",
-  async function(event) {
+        <path
+          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+        />
+      </svg>
+    `;
 
-    event.preventDefault();
-    event.stopPropagation();
 
-    try {
+    copyButton.addEventListener(
+      "click",
+      async function(event) {
 
-      await navigator.clipboard.writeText(text);
+        event.preventDefault();
+        event.stopPropagation();
 
-      copyButton.innerHTML = `
-        <svg
-          viewBox="0 0 24 24"
-          width="17"
-          height="17"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      `;
+        try {
 
-      setTimeout(
-        function() {
+          await navigator.clipboard.writeText(
+            text
+          );
 
           copyButton.innerHTML = `
             <svg
@@ -395,26 +942,21 @@ copyButton.addEventListener(
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <rect x="9" y="9" width="11" height="11" rx="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              <polyline points="20 6 9 17 4 12"/>
             </svg>
           `;
 
-        },
-        1500
-      );
+        } catch (error) {
 
-    } catch (error) {
+          console.error(
+            "Copy failed:",
+            error
+          );
 
-      console.error(
-        "Copy failed:",
-        error
-      );
+        }
 
-    }
-
-  }
-);
+      }
+    );
 
 
     chatBox.appendChild(
@@ -433,10 +975,13 @@ copyButton.addEventListener(
 
 
 /* =========================
-   SAVE TEXT MESSAGE
+   SAVE MESSAGE
 ========================= */
 
-function saveMessage(text, role) {
+function saveMessage(
+  text,
+  role
+) {
 
   conversation.push({
 
@@ -450,7 +995,9 @@ function saveMessage(text, role) {
 
   localStorage.setItem(
     "aiConversation",
-    JSON.stringify(conversation)
+    JSON.stringify(
+      conversation
+    )
   );
 
 }
@@ -479,7 +1026,9 @@ function saveImageMessage(
 
   localStorage.setItem(
     "aiConversation",
-    JSON.stringify(conversation)
+    JSON.stringify(
+      conversation
+    )
   );
 
 }
@@ -500,18 +1049,22 @@ function showImagePreview(file) {
     !file.type.startsWith("image/")
   ) {
 
-    fileName.textContent =
-      "Please select an image.";
+    if (fileName) {
+      fileName.textContent =
+        "Please select an image.";
+    }
 
     return;
-
   }
+
 
   selectedImage =
     file;
 
+
   const reader =
     new FileReader();
+
 
   reader.onload =
     function(event) {
@@ -519,32 +1072,41 @@ function showImagePreview(file) {
       const imageData =
         event.target.result;
 
-      previewImage.src =
-        imageData;
+      if (previewImage) {
+        previewImage.src =
+          imageData;
+      }
 
-      imagePreview.style.display =
-        "block";
+      if (imagePreview) {
+        imagePreview.style.display =
+          "block";
+      }
 
-      fileName.textContent =
-        file.name || "Image selected";
+      if (fileName) {
+        fileName.textContent =
+          file.name ||
+          "Image selected";
+      }
 
-      previewImage.style.cursor =
-        "pointer";
 
-      previewImage.onclick =
-        function(event) {
+      if (previewImage) {
 
-          event.preventDefault();
+        previewImage.onclick =
+          function(event) {
 
-          event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-          openImageViewer(
-            imageData
-          );
+            openImageViewer(
+              imageData
+            );
 
-        };
+          };
+
+      }
 
     };
+
 
   reader.readAsDataURL(file);
 
@@ -555,31 +1117,52 @@ function showImagePreview(file) {
    REMOVE IMAGE
 ========================= */
 
-removeImageButton.addEventListener(
-  "click",
-  function(event) {
+if (removeImageButton) {
 
-    event.preventDefault();
+  removeImageButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    selectedImage = null;
+      selectedImage =
+        null;
 
-    previewImage.src = "";
+      if (previewImage) {
+        previewImage.src =
+          "";
+      }
 
-    imagePreview.style.display =
-      "none";
+      if (imagePreview) {
+        imagePreview.style.display =
+          "none";
+      }
 
-    photoInput.value = "";
+      if (photoInput) {
+        photoInput.value =
+          "";
+      }
 
-    cameraInput.value = "";
+      if (cameraInput) {
+        cameraInput.value =
+          "";
+      }
 
-    fileInput.value = "";
+      if (fileInput) {
+        fileInput.value =
+          "";
+      }
 
-    fileName.textContent = "";
+      if (fileName) {
+        fileName.textContent =
+          "";
+      }
 
-  }
-);
+    }
+  );
+
+}
 
 
 /* =========================
@@ -591,29 +1174,11 @@ function addSavedImage(
   text
 ) {
 
-  const imageContainer =
+  const container =
     document.createElement("div");
 
-  imageContainer.className =
+  container.className =
     "sent-image";
-
-  imageContainer.style.alignSelf =
-    "flex-end";
-
-  imageContainer.style.width =
-    "fit-content";
-
-  imageContainer.style.maxWidth =
-    "220px";
-
-  imageContainer.style.margin =
-    "0";
-
-  imageContainer.style.padding =
-    "0";
-
-  imageContainer.style.background =
-    "transparent";
 
 
   const image =
@@ -622,23 +1187,14 @@ function addSavedImage(
   image.src =
     imageData;
 
-  image.alt =
-    "Sent image";
-
   image.style.display =
     "block";
-
-  image.style.width =
-    "auto";
 
   image.style.maxWidth =
     "220px";
 
   image.style.maxHeight =
     "220px";
-
-  image.style.height =
-    "auto";
 
   image.style.objectFit =
     "contain";
@@ -655,7 +1211,6 @@ function addSavedImage(
     function(event) {
 
       event.preventDefault();
-
       event.stopPropagation();
 
       openImageViewer(
@@ -666,12 +1221,12 @@ function addSavedImage(
   );
 
 
-  imageContainer.appendChild(
+  container.appendChild(
     image
   );
 
   chatBox.appendChild(
-    imageContainer
+    container
   );
 
 
@@ -710,50 +1265,45 @@ function openCamera() {
     !navigator.mediaDevices.getUserMedia
   ) {
 
-    cameraInput.click();
+    if (cameraInput) {
+      cameraInput.click();
+    }
 
     return;
-
   }
 
 
-  const cameraViewer =
+  const viewer =
     document.createElement("div");
 
-  cameraViewer.id =
+  viewer.id =
     "cameraViewer";
 
-  cameraViewer.style.position =
+  viewer.style.position =
     "fixed";
 
-  cameraViewer.style.inset =
+  viewer.style.inset =
     "0";
 
-  cameraViewer.style.width =
-    "100%";
-
-  cameraViewer.style.height =
-    "100%";
-
-  cameraViewer.style.background =
+  viewer.style.background =
     "#000";
 
-  cameraViewer.style.zIndex =
+  viewer.style.zIndex =
     "100000";
 
-  cameraViewer.style.display =
+  viewer.style.display =
     "flex";
 
-  cameraViewer.style.flexDirection =
+  viewer.style.flexDirection =
     "column";
 
-  cameraViewer.style.alignItems =
+  viewer.style.alignItems =
     "center";
 
-  cameraViewer.style.justifyContent =
+  viewer.style.justifyContent =
     "center";
 
-  cameraViewer.style.padding =
+  viewer.style.padding =
     "20px";
 
 
@@ -791,12 +1341,6 @@ function openCamera() {
   controls.style.display =
     "flex";
 
-  controls.style.alignItems =
-    "center";
-
-  controls.style.justifyContent =
-    "center";
-
   controls.style.gap =
     "20px";
 
@@ -804,86 +1348,80 @@ function openCamera() {
     "20px";
 
 
-  const captureButton =
+  const capture =
     document.createElement("button");
 
-  captureButton.textContent =
+  capture.type =
+    "button";
+
+  capture.textContent =
     "Capture";
 
-  captureButton.style.width =
+  capture.style.width =
     "110px";
 
-  captureButton.style.height =
+  capture.style.height =
     "44px";
 
-  captureButton.style.border =
+  capture.style.border =
     "none";
 
-  captureButton.style.borderRadius =
+  capture.style.borderRadius =
     "22px";
 
-  captureButton.style.background =
+  capture.style.background =
     "#26332c";
 
-  captureButton.style.color =
+  capture.style.color =
     "white";
 
-  captureButton.style.fontSize =
-    "15px";
 
-  captureButton.style.cursor =
-    "pointer";
-
-
-  const closeButton =
+  const cancel =
     document.createElement("button");
 
-  closeButton.textContent =
+  cancel.type =
+    "button";
+
+  cancel.textContent =
     "Cancel";
 
-  closeButton.style.width =
+  cancel.style.width =
     "90px";
 
-  closeButton.style.height =
+  cancel.style.height =
     "44px";
 
-  closeButton.style.border =
+  cancel.style.border =
     "1px solid #303833";
 
-  closeButton.style.borderRadius =
+  cancel.style.borderRadius =
     "22px";
 
-  closeButton.style.background =
+  cancel.style.background =
     "#1b211e";
 
-  closeButton.style.color =
+  cancel.style.color =
     "white";
 
-  closeButton.style.fontSize =
-    "15px";
-
-  closeButton.style.cursor =
-    "pointer";
-
 
   controls.appendChild(
-    captureButton
+    capture
   );
 
   controls.appendChild(
-    closeButton
+    cancel
   );
 
-  cameraViewer.appendChild(
+  viewer.appendChild(
     video
   );
 
-  cameraViewer.appendChild(
+  viewer.appendChild(
     controls
   );
 
   document.body.appendChild(
-    cameraViewer
+    viewer
   );
 
 
@@ -894,33 +1432,34 @@ function openCamera() {
       cameraStream
         .getTracks()
         .forEach(
-          function(track) {
-            track.stop();
-          }
+          track =>
+            track.stop()
         );
 
-      cameraStream = null;
+      cameraStream =
+        null;
 
     }
 
-    cameraViewer.remove();
+    viewer.remove();
 
   }
 
 
-  closeButton.addEventListener(
+  cancel.addEventListener(
     "click",
     closeCamera
   );
 
 
-  captureButton.addEventListener(
+  capture.addEventListener(
     "click",
     function() {
 
       if (!video.videoWidth) {
         return;
       }
+
 
       const canvas =
         document.createElement("canvas");
@@ -931,8 +1470,14 @@ function openCamera() {
       canvas.height =
         video.videoHeight;
 
+
       const context =
         canvas.getContext("2d");
+
+      if (!context) {
+        return;
+      }
+
 
       context.drawImage(
         video,
@@ -950,18 +1495,23 @@ function openCamera() {
             return;
           }
 
+
           const file =
             new File(
               [blob],
               "camera-photo.jpg",
               {
-                type: "image/jpeg"
+                type:
+                  "image/jpeg"
               }
             );
 
+
           closeCamera();
 
-          showImagePreview(file);
+          showImagePreview(
+            file
+          );
 
         },
         "image/jpeg",
@@ -976,7 +1526,8 @@ function openCamera() {
     .getUserMedia({
       video: {
         facingMode: {
-          ideal: "environment"
+          ideal:
+            "environment"
         }
       },
       audio: false
@@ -1002,18 +1553,54 @@ function openCamera() {
 
         closeCamera();
 
-        fileName.textContent =
-          "Camera permission was not available.";
-
-        setTimeout(
-          function() {
-            cameraInput.click();
-          },
-          300
-        );
+        if (fileName) {
+          fileName.textContent =
+            "Camera permission was not available.";
+        }
 
       }
     );
+
+}
+
+
+/* =========================
+   FILE TO BASE64
+========================= */
+
+function fileToBase64(file) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function() {
+
+          resolve(
+            reader.result
+          );
+
+        };
+
+
+      reader.onerror =
+        function() {
+
+          reject(
+            reader.error
+          );
+
+        };
+
+
+      reader.readAsDataURL(file);
+
+    }
+  );
 
 }
 
@@ -1027,16 +1614,19 @@ async function sendMessage() {
   const text =
     userInput.value.trim();
 
+
   if (
     !text &&
     !selectedImage
   ) {
+
     return;
   }
 
 
   const imageToSend =
     selectedImage;
+
 
   let imageDataForAPI =
     null;
@@ -1064,7 +1654,6 @@ async function sendMessage() {
       );
 
       return;
-
     }
 
 
@@ -1072,6 +1661,7 @@ async function sendMessage() {
       imageDataForAPI,
       text
     );
+
 
     saveImageMessage(
       imageDataForAPI,
@@ -1093,27 +1683,51 @@ async function sendMessage() {
   }
 
 
-  userInput.value = "";
+  userInput.value =
+    "";
 
   userInput.style.height =
     "44px";
 
-  selectedImage = null;
+  selectedImage =
+    null;
 
-  previewImage.src = "";
 
-  imagePreview.style.display =
-    "none";
+  if (previewImage) {
+    previewImage.src =
+      "";
+  }
 
-  photoInput.value = "";
+  if (imagePreview) {
+    imagePreview.style.display =
+      "none";
+  }
 
-  cameraInput.value = "";
+  if (photoInput) {
+    photoInput.value =
+      "";
+  }
 
-  fileInput.value = "";
+  if (cameraInput) {
+    cameraInput.value =
+      "";
+  }
 
-  fileName.textContent = "";
+  if (fileInput) {
+    fileInput.value =
+      "";
+  }
 
-  toolsMenu.classList.remove("open");
+  if (fileName) {
+    fileName.textContent =
+      "";
+  }
+
+  if (toolsMenu) {
+    toolsMenu.classList.remove(
+      "open"
+    );
+  }
 
 
   const thinkingMessage =
@@ -1125,35 +1739,21 @@ async function sendMessage() {
 
   try {
 
-    const response =
-      await fetch(
-        "http://localhost:3000/chat",
-        {
-          method: "POST",
+    const response = await fetch("/chat", {
+  method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+  headers: {
+    "Content-Type": "application/json"
+  },
 
-          body: JSON.stringify({
-
-            message:
-              text,
-
-            conversation:
-              conversation,
-
-            image:
-              imageDataForAPI,
-
-            thinkMode:
-              thinkMode
-
-          })
-
-        }
-      );
+  body: JSON.stringify({
+    message: text,
+    conversation: conversation,
+    image: imageDataForAPI,
+    thinkMode: thinkMode
+  })
+});
+    
 
 
     if (!response.ok) {
@@ -1185,6 +1785,7 @@ async function sendMessage() {
       "ai"
     );
 
+
     saveMessage(
       reply,
       "assistant"
@@ -1200,6 +1801,7 @@ async function sendMessage() {
 
     thinkingMessage.remove();
 
+
     addMessage(
       "Unable to connect to the AI server.",
       "ai"
@@ -1211,28 +1813,19 @@ async function sendMessage() {
 
 
 /* =========================
-   FILE TO BASE64
+   SEND BUTTON
 ========================= */
 
-function fileToBase64(file) {
+if (sendButton) {
 
-  return new Promise(
-    function(resolve, reject) {
+  sendButton.addEventListener(
+    "click",
+    function(event) {
 
-      const reader =
-        new FileReader();
+      event.preventDefault();
+      event.stopPropagation();
 
-      reader.onload =
-        function() {
-          resolve(reader.result);
-        };
-
-      reader.onerror =
-        function() {
-          reject(reader.error);
-        };
-
-      reader.readAsDataURL(file);
+      sendMessage();
 
     }
   );
@@ -1241,484 +1834,465 @@ function fileToBase64(file) {
 
 
 /* =========================
-   SEND BUTTON
-========================= */
-
-sendButton.addEventListener(
-  "click",
-  function(event) {
-
-    event.preventDefault();
-
-    sendMessage();
-
-  }
-);
-
-
-/* =========================
    ENTER TO SEND
 ========================= */
 
-userInput.addEventListener(
-  "keydown",
-  function(event) {
+if (userInput) {
 
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
+  userInput.addEventListener(
+    "keydown",
+    function(event) {
 
-      event.preventDefault();
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
 
-      sendMessage();
+        event.preventDefault();
+
+        sendMessage();
+
+      }
 
     }
-
-  }
-);
+  );
 
 
-/* =========================
-   AUTO GROW
-========================= */
+  /* =========================
+     AUTO GROW
+  ========================= */
 
-userInput.addEventListener(
-  "input",
-  function() {
+  userInput.addEventListener(
+    "input",
+    function() {
 
-    this.style.height =
-      "44px";
+      this.style.height =
+        "44px";
 
-    this.style.height =
-      Math.min(
-        this.scrollHeight,
-        100
-      ) + "px";
+      this.style.height =
+        Math.min(
+          this.scrollHeight,
+          100
+        ) + "px";
 
-  }
-);
+    }
+  );
+
+}
 
 
 /* =========================
    PLUS BUTTON
 ========================= */
 
-plusButton.addEventListener(
-  "click",
-  function(event) {
+if (plusButton) {
 
-    event.preventDefault();
+  plusButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    toolsMenu.classList.toggle("open");
+      if (toolsMenu) {
 
-  }
-);
+        toolsMenu.classList.toggle(
+          "open"
+        );
+
+      }
+
+      if (themeMenu) {
+
+        themeMenu.classList.remove(
+          "open"
+        );
+
+      }
+
+    }
+  );
+
+}
 
 
 /* =========================
    UPLOAD
 ========================= */
 
-uploadButton.addEventListener(
-  "click",
-  function(event) {
+if (uploadButton) {
 
-    event.preventDefault();
+  uploadButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    fileInput.click();
+      if (toolsMenu) {
 
-  }
-);
+        toolsMenu.classList.remove(
+          "open"
+        );
+
+      }
+
+      if (fileInput) {
+
+        fileInput.click();
+
+      }
+
+    }
+  );
+
+}
 
 
 /* =========================
    FILE SELECTED
 ========================= */
 
-fileInput.addEventListener(
-  "change",
-  function() {
+if (fileInput) {
 
-    if (!this.files.length) {
-      return;
+  fileInput.addEventListener(
+    "change",
+    function() {
+
+      if (!this.files.length) {
+        return;
+      }
+
+
+      const file =
+        this.files[0];
+
+
+      if (
+        file.type &&
+        file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        showImagePreview(
+          file
+        );
+
+      } else {
+
+        if (fileName) {
+
+          fileName.textContent =
+            "Selected: " +
+            file.name;
+
+        }
+
+      }
+
     }
+  );
 
-    const file =
-      this.files[0];
-
-    if (
-      file.type &&
-      file.type.startsWith("image/")
-    ) {
-
-      showImagePreview(file);
-
-    } else {
-
-      fileName.textContent =
-        "Selected: " +
-        file.name;
-
-    }
-
-  }
-);
+}
 
 
 /* =========================
    PHOTO BUTTON
 ========================= */
 
-photoButton.addEventListener(
-  "click",
-  function(event) {
+if (photoButton) {
 
-    event.preventDefault();
+  photoButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    photoInput.click();
+      if (toolsMenu) {
 
-  }
-);
+        toolsMenu.classList.remove(
+          "open"
+        );
+
+      }
+
+      if (photoInput) {
+
+        photoInput.click();
+
+      }
+
+    }
+  );
+
+}
 
 
 /* =========================
    PHOTO SELECTED
 ========================= */
 
-photoInput.addEventListener(
-  "change",
-  function() {
+if (photoInput) {
 
-    if (!this.files.length) {
-      return;
+  photoInput.addEventListener(
+    "change",
+    function() {
+
+      if (!this.files.length) {
+        return;
+      }
+
+      showImagePreview(
+        this.files[0]
+      );
+
     }
+  );
 
-    showImagePreview(
-      this.files[0]
-    );
-
-  }
-);
+}
 
 
 /* =========================
    CAMERA BUTTON
 ========================= */
 
-cameraButton.addEventListener(
-  "click",
-  function(event) {
+if (cameraButton) {
 
-    event.preventDefault();
+  cameraButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    toolsMenu.classList.remove("open");
+      if (toolsMenu) {
 
-    openCamera();
+        toolsMenu.classList.remove(
+          "open"
+        );
 
-  }
-);
+      }
+
+      openCamera();
+
+    }
+  );
+
+}
 
 
 /* =========================
    CAMERA INPUT
 ========================= */
 
-cameraInput.addEventListener(
-  "change",
-  function() {
+if (cameraInput) {
 
-    if (!this.files.length) {
-      return;
+  cameraInput.addEventListener(
+    "change",
+    function() {
+
+      if (!this.files.length) {
+        return;
+      }
+
+      showImagePreview(
+        this.files[0]
+      );
+
     }
+  );
 
-    showImagePreview(
-      this.files[0]
-    );
-
-  }
-);
+}
 
 
 /* =========================
    THINK MODE
 ========================= */
 
-thinkButton.addEventListener(
-  "click",
-  function(event) {
+if (thinkButton) {
 
-    event.preventDefault();
+  thinkButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-    thinkMode =
-      !thinkMode;
+      thinkMode =
+        !thinkMode;
 
-    this.classList.toggle(
-      "active",
-      thinkMode
-    );
+      this.classList.toggle(
+        "active",
+        thinkMode
+      );
 
-    fileName.textContent =
-      thinkMode
-        ? "Think mode enabled"
-        : "Think mode disabled";
+      if (fileName) {
 
-  }
-);
+        fileName.textContent =
+          thinkMode
+            ? "Think mode enabled"
+            : "Think mode disabled";
+
+      }
+
+    }
+  );
+
+}
 
 
 /* =========================
    MICROPHONE
 ========================= */
 
-micButton.addEventListener(
-  "click",
-  function(event) {
+if (micButton) {
 
-    event.preventDefault();
+  micButton.addEventListener(
+    "click",
+    function(event) {
 
-    event.stopPropagation();
-
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+      event.preventDefault();
+      event.stopPropagation();
 
 
-    if (!SpeechRecognition) {
-
-      fileName.textContent =
-        "Voice input is not supported on this browser.";
-
-      return;
-
-    }
+      const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
 
-    const recognition =
-      new SpeechRecognition();
+      if (!SpeechRecognition) {
 
-    recognition.lang =
-      "en-US";
-
-    recognition.interimResults =
-      false;
-
-    recognition.maxAlternatives =
-      1;
-
-    recognition.start();
-
-    fileName.textContent =
-      "Listening...";
-
-
-    recognition.onresult =
-      function(event) {
-
-        const transcript =
-          event.results[0][0]
-            .transcript;
-
-        userInput.value +=
-          (
-            userInput.value
-              ? " "
-              : ""
-          ) +
-          transcript;
-
-        userInput.dispatchEvent(
-          new Event("input")
-        );
-
-        fileName.textContent =
-          "";
-
-      };
-
-
-    recognition.onerror =
-      function(event) {
-
-        console.error(
-          "Voice input error:",
-          event
-        );
-
-        fileName.textContent =
-          "Voice input failed.";
-
-      };
-
-
-    recognition.onend =
-      function() {
-
-        if (
-          fileName.textContent ===
-          "Listening..."
-        ) {
+        if (fileName) {
 
           fileName.textContent =
-            "";
+            "Voice input is not supported on this browser.";
 
         }
 
-      };
-
-  }
-);
+        return;
+      }
 
 
-/* =========================
-   NEW CHAT
-========================= */
-
-newChatButton.addEventListener(
-  "click",
-  function(event) {
-
-    event.preventDefault();
-
-    event.stopPropagation();
+      const recognition =
+        new SpeechRecognition();
 
 
-    const confirmed =
-      confirm(
-        "Start a new chat? Your current conversation will be saved in Chat History."
-      );
+      recognition.lang =
+        "en-US";
+
+      recognition.interimResults =
+        false;
+
+      recognition.maxAlternatives =
+        1;
 
 
-    if (!confirmed) {
-      return;
-    }
+      recognition.start();
 
 
-    /* SAVE CURRENT CHAT */
+      if (fileName) {
 
-    saveCurrentChatToHistory();
+        fileName.textContent =
+          "Listening...";
+
+      }
 
 
-    /* STOP CAMERA */
+      recognition.onresult =
+        function(event) {
 
-    if (cameraStream) {
+          const transcript =
+            event.results[0][0]
+              .transcript;
 
-      cameraStream
-        .getTracks()
-        .forEach(
-          function(track) {
-            track.stop();
+
+          userInput.value +=
+            (
+              userInput.value
+                ? " "
+                : ""
+            ) +
+            transcript;
+
+
+          userInput.dispatchEvent(
+            new Event("input")
+          );
+
+
+          if (fileName) {
+
+            fileName.textContent =
+              "";
+
           }
-        );
 
-      cameraStream = null;
+        };
+
+
+      recognition.onerror =
+        function(error) {
+
+          console.error(
+            "Voice input error:",
+            error
+          );
+
+          if (fileName) {
+
+            fileName.textContent =
+              "Voice input failed.";
+
+          }
+
+        };
+
+
+      recognition.onend =
+        function() {
+
+          if (
+            fileName &&
+            fileName.textContent ===
+            "Listening..."
+          ) {
+
+            fileName.textContent =
+              "";
+
+          }
+
+        };
 
     }
+  );
 
-
-    const cameraViewer =
-      document.getElementById(
-        "cameraViewer"
-      );
-
-    if (cameraViewer) {
-      cameraViewer.remove();
-    }
-
-
-    const imageViewer =
-      document.getElementById(
-        "imageViewer"
-      );
-
-    if (imageViewer) {
-      imageViewer.remove();
-    }
-
-
-    /* CLEAR CURRENT CHAT */
-
-    conversation = [];
-
-    localStorage.removeItem(
-      "aiConversation"
-    );
-
-
-    chatBox.innerHTML =
-      "";
-
-    addMessage(
-      "Hello! How can I help you today?",
-      "ai"
-    );
-
-
-    userInput.value =
-      "";
-
-    userInput.style.height =
-      "44px";
-
-
-    selectedImage =
-      null;
-
-    previewImage.src =
-      "";
-
-    imagePreview.style.display =
-      "none";
-
-
-    photoInput.value =
-      "";
-
-    cameraInput.value =
-      "";
-
-    fileInput.value =
-      "";
-
-    fileName.textContent =
-      "";
-
-
-    thinkMode =
-      false;
-
-    thinkButton.classList.remove(
-      "active"
-    );
-
-
-    toolsMenu.classList.remove(
-      "open"
-    );
-
-  }
-);
+}
 
 
 /* =========================
-   HISTORY DRAWER
+   HISTORY
 ========================= */
 
 function openHistoryDrawer() {
 
-  historyDrawer.classList.add("open");
+  if (historyDrawer) {
 
-  historyOverlay.classList.add("open");
+    historyDrawer.classList.add(
+      "open"
+    );
+
+  }
+
+  if (historyOverlay) {
+
+    historyOverlay.classList.add(
+      "open"
+    );
+
+  }
 
   updateHistoryList();
 
@@ -1727,35 +2301,61 @@ function openHistoryDrawer() {
 
 function closeHistoryDrawer() {
 
-  historyDrawer.classList.remove("open");
+  if (historyDrawer) {
 
-  historyOverlay.classList.remove("open");
+    historyDrawer.classList.remove(
+      "open"
+    );
+
+  }
+
+  if (historyOverlay) {
+
+    historyOverlay.classList.remove(
+      "open"
+    );
+
+  }
 
 }
 
 
-closeHistoryButton.addEventListener(
-  "click",
-  function() {
+if (closeHistoryButton) {
 
-    closeHistoryDrawer();
+  closeHistoryButton.addEventListener(
+    "click",
+    function(event) {
 
-  }
-);
+      event.preventDefault();
+      event.stopPropagation();
+
+      closeHistoryDrawer();
+
+    }
+  );
+
+}
 
 
-historyOverlay.addEventListener(
-  "click",
-  function() {
+if (historyOverlay) {
 
-    closeHistoryDrawer();
+  historyOverlay.addEventListener(
+    "click",
+    function(event) {
 
-  }
-);
+      event.preventDefault();
+      event.stopPropagation();
+
+      closeHistoryDrawer();
+
+    }
+  );
+
+}
 
 
 /* =========================
-   SWIPE DRAWER — ANYWHERE
+   SWIPE DRAWER
 ========================= */
 
 document.addEventListener(
@@ -1769,11 +2369,10 @@ document.addEventListener(
     touchStartX =
       event.touches[0].clientX;
 
-    touchStartY =
-      event.touches[0].clientY;
-
   },
-  { passive: true }
+  {
+    passive: true
+  }
 );
 
 
@@ -1785,46 +2384,36 @@ document.addEventListener(
       return;
     }
 
+
     const touchEndX =
       event.changedTouches[0].clientX;
 
-    const touchEndY =
-      event.changedTouches[0].clientY;
 
     const differenceX =
-      touchEndX - touchStartX;
+      touchEndX -
+      touchStartX;
 
-    const differenceY =
-      Math.abs(
-        touchEndY - touchStartY
-      );
-
-
-    /* =========================
-       OPEN FROM ANYWHERE
-    ========================= */
 
     if (
       differenceX > 70 &&
-      differenceY < 100 &&
-      !historyDrawer.classList.contains("open")
+      historyDrawer &&
+      !historyDrawer.classList.contains(
+        "open"
+      )
     ) {
 
       openHistoryDrawer();
 
       return;
-
     }
 
 
-    /* =========================
-       CLOSE DRAWER
-    ========================= */
-
     if (
-      historyDrawer.classList.contains("open") &&
-      differenceX < -70 &&
-      differenceY < 100
+      historyDrawer &&
+      historyDrawer.classList.contains(
+        "open"
+      ) &&
+      differenceX < -70
     ) {
 
       closeHistoryDrawer();
@@ -1832,17 +2421,25 @@ document.addEventListener(
     }
 
   },
-  { passive: true }
+  {
+    passive: true
+  }
 );
 
 
 /* =========================
-   UPDATE HISTORY LIST
+   UPDATE HISTORY
 ========================= */
 
 function updateHistoryList() {
 
-  historyList.innerHTML = "";
+  if (!historyList) {
+    return;
+  }
+
+
+  historyList.innerHTML =
+    "";
 
 
   if (!chatHistory.length) {
@@ -1861,7 +2458,6 @@ function updateHistoryList() {
     );
 
     return;
-
   }
 
 
@@ -1882,7 +2478,8 @@ function updateHistoryList() {
         "history-item-title";
 
       title.textContent =
-        chat.title;
+        chat.title ||
+        "Untitled chat";
 
 
       item.appendChild(
@@ -1892,7 +2489,10 @@ function updateHistoryList() {
 
       item.addEventListener(
         "click",
-        function() {
+        function(event) {
+
+          event.preventDefault();
+          event.stopPropagation();
 
           loadChatFromHistory(
             chat.id
@@ -1913,16 +2513,17 @@ function updateHistoryList() {
 
 
 /* =========================
-   LOAD CHAT FROM HISTORY
+   LOAD HISTORY CHAT
 ========================= */
 
-function loadChatFromHistory(chatId) {
+function loadChatFromHistory(
+  chatId
+) {
 
   const selectedChat =
     chatHistory.find(
-      function(chat) {
-        return chat.id === chatId;
-      }
+      chat =>
+        chat.id === chatId
     );
 
 
@@ -1934,19 +2535,25 @@ function loadChatFromHistory(chatId) {
   conversation =
     JSON.parse(
       JSON.stringify(
-        selectedChat.messages
+        selectedChat.messages || []
       )
     );
 
 
   localStorage.setItem(
     "aiConversation",
-    JSON.stringify(conversation)
+    JSON.stringify(
+      conversation
+    )
   );
 
 
-  chatBox.innerHTML =
-    "";
+  if (chatBox) {
+
+    chatBox.innerHTML =
+      "";
+
+  }
 
 
   conversation.forEach(
@@ -1977,8 +2584,12 @@ function loadChatFromHistory(chatId) {
   );
 
 
-  chatBox.scrollTop =
-    chatBox.scrollHeight;
+  if (chatBox) {
+
+    chatBox.scrollTop =
+      chatBox.scrollHeight;
+
+  }
 
 
   closeHistoryDrawer();
@@ -1997,8 +2608,12 @@ function restoreConversation() {
   }
 
 
-  chatBox.innerHTML =
-    "";
+  if (chatBox) {
+
+    chatBox.innerHTML =
+      "";
+
+  }
 
 
   conversation.forEach(
@@ -2014,30 +2629,33 @@ function restoreConversation() {
           message.content
         );
 
-        return;
+      } else {
+
+        addMessage(
+          message.content || "",
+          message.role === "user"
+            ? "user"
+            : "ai"
+        );
 
       }
-
-
-      addMessage(
-        message.content || "",
-        message.role === "user"
-          ? "user"
-          : "ai"
-      );
 
     }
   );
 
 
-  chatBox.scrollTop =
-    chatBox.scrollHeight;
+  if (chatBox) {
+
+    chatBox.scrollTop =
+      chatBox.scrollHeight;
+
+  }
 
 }
 
 
 /* =========================
-   START APP
+   START
 ========================= */
 
 restoreConversation();

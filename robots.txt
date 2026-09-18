@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gpt-hub-x89g.onrender.com/sitemap.xml
